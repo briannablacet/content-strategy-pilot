@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini Content Strategy & Next-Year Roadmap Engine | ServiceNow MARZ Pilot</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .tab-active {
+      border-bottom: 2px solid #2563eb;
+      color: #2563eb;
+      font-weight: 600;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.5);
+      border-radius: 3px;
+    }
+    [data-tip] {
+      cursor: help;
+      border-bottom: 1px dashed rgba(100, 116, 139, 0.65);
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+    [data-tip]:hover {
+      border-bottom-color: #2563eb;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- Floating Global Hover Tooltip -->
+  <div id="global-tooltip" class="fixed hidden z-[9999] max-w-xs bg-slate-900 text-white text-xs leading-relaxed rounded-xl px-3.5 py-2.5 shadow-xl border border-slate-700 pointer-events-none"></div>
+
+  <!-- Top Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center py-3 gap-3">
+      <div class="flex items-center space-x-3">
+        <div class="bg-gradient-to-tr from-blue-600 to-indigo-600 text-white w-10 h-10 rounded-xl shadow-sm flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <h1 class="font-bold text-base sm:text-lg text-slate-900 tracking-tight">Gemini Content Strategy &amp; Next-Year Roadmap Engine</h1>
+            <span data-tip="MARZ (Marketing Analytics & Results Zone): ServiceNow's internal analytics platform that tracks how marketing content drives pipeline across every deal stage using Multi-Touch Attribution." class="bg-emerald-50 text-emerald-700 text-xs font-semibold px-2.5 py-0.5 rounded-full border border-emerald-200">
+              MARZ Multi-Stage Attribution ⓘ
+            </span>
+            <span class="bg-blue-50 text-blue-700 text-xs font-semibold px-2.5 py-0.5 rounded-full border border-blue-200" id="dataset-badge">
+              ServiceNow Pilot Schema
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 mt-0.5">6 Channels • 7 Core Content Types • 8 Full-Funnel Pipeline &amp; Velocity Metrics <span class="text-blue-600 font-medium">(Hover over any dashed term for plain-English definitions)</span></p>
+        </div>
+      </div>
+
+      <div class="flex items-center flex-wrap gap-2">
+        <button onclick="document.getElementById('glossary-modal').classList.remove('hidden')" class="inline-flex items-center px-3 py-1.5 border border-indigo-200 text-xs font-semibold rounded-lg text-indigo-700 bg-indigo-50 hover:bg-indigo-100 transition cursor-pointer">
+          <svg class="w-3.5 h-3.5 mr-1.5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
+          Acronym Guide
+        </button>
+        <button onclick="downloadTemplateCSV()" class="inline-flex items-center px-3 py-1.5 border border-slate-300 text-xs font-medium rounded-lg text-slate-700 bg-white hover:bg-slate-50 transition cursor-pointer">
+          <svg class="w-3.5 h-3.5 mr-1.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+          Sample CSV
+        </button>
+        <button onclick="exportExecutiveMemo()" class="inline-flex items-center px-3 py-1.5 border border-slate-300 text-xs font-medium rounded-lg text-slate-700 bg-white hover:bg-slate-50 transition cursor-pointer">
+          <svg class="w-3.5 h-3.5 mr-1.5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+          Export Strategy Memo
+        </button>
+        <button onclick="document.getElementById('upload-modal').classList.remove('hidden')" class="inline-flex items-center px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-xs font-semibold rounded-lg text-white transition shadow-xs cursor-pointer">
+          <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+          Swap Real Export (CSV/JSON)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full space-y-6">
+
+    <!-- 8-Metric Executive KPI Strip -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+      <!-- Card 1: MTA Influenced Pipeline -->
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+        <div class="flex justify-between items-start">
+          <p data-tip="Multi-Touch Attribution (MTA) Pipeline: Total weighted dollar value of sales deals where this content helped educate or accelerate the buying committee at any point in the deal cycle." class="text-xs font-semibold uppercase tracking-wider text-slate-500">$ Mktg Influenced (MTA) ⓘ</p>
+          <span data-tip="Multi-Stage Attribution gives fractional credit to every content asset a buying committee touches from early discovery through closed-won." class="text-xs bg-emerald-50 text-emerald-700 font-semibold px-2 py-0.5 rounded border border-emerald-200">Multi-Stage</span>
+        </div>
+        <p class="text-2xl font-bold text-slate-900 mt-1.5" id="kpi-influenced-pipe">$137.5M</p>
+        <p class="text-xs text-slate-500 mt-1">Avg <span class="font-semibold text-blue-600" id="kpi-pipe-efficiency">$3,355</span> per interaction</p>
+      </div>
+
+      <!-- Card 2: GSD Created Pipeline -->
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+        <div class="flex justify-between items-start">
+          <p data-tip="Global Sales Development (GSD) Created Pipeline: Total dollar value of brand-new sales opportunities directly originated/booked by ServiceNow's SDR/BDR team after a prospect engaged with this content." class="text-xs font-semibold uppercase tracking-wider text-slate-500">$ GSD Created Pipeline ⓘ</p>
+          <span data-tip="Deals sparked directly by Marketing + SDR (GSD) outbound/inbound follow-up." class="text-xs bg-blue-50 text-blue-700 font-semibold px-2 py-0.5 rounded border border-blue-200">SDR Sourced</span>
+        </div>
+        <p class="text-2xl font-bold text-slate-900 mt-1.5" id="kpi-created-pipe">$74.3M</p>
+        <p class="text-xs text-slate-500 mt-1">Avg <span class="font-semibold text-slate-700" id="kpi-gsd-efficiency">$1,814</span> GSD / interaction</p>
+      </div>
+
+      <!-- Card 3: Interactions & Net New Interactions -->
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+        <div class="flex justify-between items-start">
+          <p data-tip="Interactions = Total views, downloads, or clicks. Net-New Interactions = Engagements from brand-new people who were NOT previously active in our database." class="text-xs font-semibold uppercase tracking-wider text-slate-500">Interactions &amp; Net New ⓘ</p>
+          <span data-tip="Percentage of total content interactions that came from brand-new prospects vs. existing contacts." class="text-xs bg-indigo-50 text-indigo-700 font-semibold px-2 py-0.5 rounded border border-indigo-200" id="kpi-netnew-pct">45.4% Net New</span>
+        </div>
+        <p class="text-2xl font-bold text-slate-900 mt-1.5" id="kpi-interactions">40,970</p>
+        <p class="text-xs text-slate-500 mt-1"><span class="font-semibold text-indigo-600" id="kpi-netnew-count">18,610</span> <span data-tip="Engagements from new prospects not previously active in ServiceNow's database."># Net New Interactions</span></p>
+      </div>
+
+      <!-- Card 4: Unique Leads & MQLs -->
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+        <div class="flex justify-between items-start">
+          <p data-tip="Unique Leads = Deduplicated individuals who engaged. MQLs (Marketing Qualified Leads) = Leads whose engagement and buyer profile scored high enough to pass to GSD (SDRs) for sales outreach." class="text-xs font-semibold uppercase tracking-wider text-slate-500">Unique Leads &rarr; MQLs ⓘ</p>
+          <span data-tip="Percentage of Unique Leads that qualified as MQLs (Marketing Qualified Leads)." class="text-xs bg-amber-50 text-amber-700 font-semibold px-2 py-0.5 rounded border border-amber-200" id="kpi-mql-rate">32.7% MQL Rate</span>
+        </div>
+        <p class="text-2xl font-bold text-slate-900 mt-1.5" id="kpi-mqls">7,445 MQLs</p>
+        <p class="text-xs text-slate-500 mt-1">From <span class="font-semibold text-slate-700" id="kpi-leads">22,790</span> <span data-tip="Deduplicated count of individual people who engaged with the content."># Unique Leads</span></p>
+      </div>
+
+      <!-- Card 5: Stage 1 & Stage 2+ Optys -->
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+        <div class="flex justify-between items-start">
+          <p data-tip="Optys = Sales Opportunities (deals in CRM). Stage 1 = Initial discovery deal opened by Sales. Stage 2+ = Fully qualified, validated sales pipeline with confirmed budget, need, and decision-maker." class="text-xs font-semibold uppercase tracking-wider text-slate-500">Stage 1 &rarr; Stage 2+ Optys ⓘ</p>
+          <span data-tip="Stage 1 to Stage 2+ Conversion Rate: Measures how often early discovery meetings turn into real, sales-accepted pipeline. High conversion = serious buyers." class="text-xs bg-emerald-50 text-emerald-700 font-semibold px-2 py-0.5 rounded border border-emerald-200" id="kpi-stage2-rate">80.1% Conv</span>
+        </div>
+        <p class="text-2xl font-bold text-slate-900 mt-1.5" id="kpi-stage2-optys">737 Stage 2+</p>
+        <p class="text-xs text-slate-500 mt-1">From <span class="font-semibold text-slate-700" id="kpi-stage1-optys">920</span> <span data-tip="Early discovery sales opportunities opened after an initial rep meeting."># Stage 1 Optys</span></p>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="border-b border-slate-200 flex flex-wrap gap-6 text-sm">
+      <button onclick="switchTab('tab-performance')" id="tab-btn-performance" class="tab-btn pb-3 tab-active flex items-center space-x-2 cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>
+        <span>1. Channel &amp; Format Intelligence</span>
+      </button>
+
+      <button onclick="switchTab('tab-roadmap')" id="tab-btn-roadmap" class="tab-btn pb-3 text-slate-500 hover:text-slate-800 flex items-center space-x-2 cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>
+        <span>2. Next-Year Content Plan &amp; 2Q Roadmap</span>
+        <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-0.5 rounded-full" id="roadmap-count-badge">16 Plays</span>
+      </button>
+
+      <button onclick="switchTab('tab-simulator')" id="tab-btn-simulator" class="tab-btn pb-3 text-slate-500 hover:text-slate-800 flex items-center space-x-2 cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/></svg>
+        <span>3. Budget Shift Simulator</span>
+      </button>
+
+      <button onclick="switchTab('tab-assets')" id="tab-btn-assets" class="tab-btn pb-3 text-slate-500 hover:text-slate-800 flex items-center space-x-2 cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0112 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125"/></svg>
+        <span>4. Asset Attribution Table</span>
+      </button>
+
+      <button onclick="switchTab('tab-copilot')" id="tab-btn-copilot" class="tab-btn pb-3 text-slate-500 hover:text-slate-800 flex items-center space-x-2 cursor-pointer">
+        <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"/></svg>
+        <span>5. Ask Gemini Strategy Copilot</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: CHANNEL & FORMAT INTELLIGENCE -->
+    <section id="tab-performance" class="tab-content space-y-6">
+
+      <!-- Sleeper Hits vs Vanity Drain Callout Row -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl p-5">
+          <div class="flex items-center justify-between">
+            <h3 class="text-emerald-900 font-bold text-sm flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 inline-block"></span>
+              The "Sleeper Hits": High Pipeline Velocity &amp; Efficiency
+            </h3>
+            <span class="text-xs font-semibold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">Scale in Next-Year Plan</span>
+          </div>
+          <p class="text-xs text-emerald-800 mt-1">Assets with &le;1,500 interactions generating &gt;$5,500 <span data-tip="Multi-Touch Attribution Pipeline: Weighted deal value influenced across the buyer journey.">MTA pipeline</span> per touch and sub-65 day sales cycles:</p>
+          <ul class="mt-3 space-y-2 text-xs" id="sleeper-list"></ul>
+        </div>
+
+        <div class="bg-gradient-to-br from-rose-50 to-amber-50 border border-rose-200 rounded-xl p-5">
+          <div class="flex items-center justify-between">
+            <h3 class="text-rose-900 font-bold text-sm flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-600 inline-block"></span>
+              The "Vanity Drain": High Click Volume, Low Stage 2+ Conversion
+            </h3>
+            <span class="text-xs font-semibold text-rose-800 bg-rose-100 px-2 py-0.5 rounded">Reallocate -40% Spend</span>
+          </div>
+          <p class="text-xs text-rose-800 mt-1">Assets driving massive top-of-funnel clicks (14,600 touches) but failing to create <span data-tip="Stage 2+ Opportunities: Validated, sales-accepted deals with confirmed budget and authority.">Stage 2+ opportunities</span>:</p>
+          <ul class="mt-3 space-y-2 text-xs" id="underperformer-list"></ul>
+        </div>
+      </div>
+
+      <!-- Content Format Matrix (All 8 ServiceNow Metrics) -->
+      <div class="bg-white rounded-xl border border-slate-200 shadow-xs p-5">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+          <div>
+            <h3 class="font-bold text-slate-900 text-sm">Content Type Effectiveness Matrix (ServiceNow MARZ Schema)</h3>
+            <p class="text-xs text-slate-500">Full-funnel performance from # Interactions and # Net New Interactions to $ GSD Created &amp; $ MTA Influenced Pipeline</p>
+          </div>
+          <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-100 text-xs">
+            <button id="btn-view-granular" onclick="setFormatView('granular')" class="px-3 py-1 rounded-md bg-white text-slate-900 font-semibold shadow-2xs cursor-pointer">Granular Formats (10)</button>
+            <button id="btn-view-category" onclick="setFormatView('category')" class="px-3 py-1 rounded-md text-slate-600 hover:text-slate-900 font-medium cursor-pointer">Enablement Deck Grouping (Ebook/WP Combined)</button>
+          </div>
+        </div>
+        <div class="overflow-x-auto custom-scroll">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th class="py-2.5 px-3">Content Type</th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Total views, downloads, or clicks on assets of this content type."># Interactions</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Deduplicated count of individual prospects who engaged with this content type."># Unique Leads</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Engagements from brand-new prospects who were NOT previously active in our database."># Net New Touches</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Marketing Qualified Leads: Prospects scored high enough to route to the GSD (SDR) team."># MQLs</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Stage 1 Opportunities: Early discovery deals opened after an initial sales meeting."># Stage 1 Optys</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Stage 2+ Opportunities: Validated, sales-accepted pipeline deals (and % conversion from Stage 1)."># Stage 2+ Optys</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Global Sales Development (GSD) Created Pipeline: Dollar value of deals originated directly by SDRs from this content.">$ GSD Created Pipe</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Multi-Touch Attribution (MTA) Pipeline: Weighted dollar value of all sales deals influenced by this content across the buyer journey.">$ Mktg Influenced (MTA)</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Average MTA Pipeline dollar value generated per interaction ($ MTA Pipeline ÷ # Interactions).">MTA / Touch</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Average number of days from initial interaction to Stage 2+ opportunity progression.">Avg Cycle</span></th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100" id="format-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Channel Performance Matrix + Buyer Persona Breakdown -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 6 Channels Table -->
+        <div class="lg:col-span-2 bg-white rounded-xl border border-slate-200 shadow-xs p-5">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h3 class="font-bold text-slate-900 text-sm">Channel Effectiveness Matrix (6 Core Channels)</h3>
+              <p class="text-xs text-slate-500">Content Syndication, Paid Social, SEO/Direct, Paid Search, Email, Direct Events</p>
+            </div>
+            <span class="text-xs bg-blue-50 text-blue-700 font-semibold px-2.5 py-0.5 rounded border border-blue-200">Ranked by MTA Pipeline</span>
+          </div>
+          <div class="overflow-x-auto custom-scroll">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+                <tr>
+                  <th class="py-2.5 px-3">Channel</th>
+                  <th class="py-2.5 px-3 text-right"><span data-tip="Total views, downloads, or clicks from this distribution channel."># Interactions</span></th>
+                  <th class="py-2.5 px-3 text-right"><span data-tip="Engagements from brand-new prospects not previously active in our database (and % of total channel interactions)."># Net New (%)</span></th>
+                  <th class="py-2.5 px-3 text-right"><span data-tip="Deduplicated count of individual prospects reached via this channel."># Unique Leads</span></th>
+                  <th class="py-2.5 px-3 text-right"><span data-tip="Marketing Qualified Leads generated by this channel."># MQLs</span></th>
+                  <th class="py-2.5 px-3 text-right"><span data-tip="Stage 1 Discovery Opportunities → Stage 2+ Validated Sales Pipeline Opportunities.">Stage 1 &rarr; 2+</span></th>
+                  <th class="py-2.5 px-3 text-right"><span data-tip="Global Sales Development (GSD) Created Pipeline: Deals originated directly by SDRs from this channel.">$ GSD Created</span></th>
+                  <th class="py-2.5 px-3 text-right"><span data-tip="Multi-Touch Attribution (MTA) Pipeline: Total weighted deal value influenced by this channel.">$ MTA Influenced</span></th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100" id="channel-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Buyer Persona & Business Unit Breakdown -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-xs p-5 flex flex-col justify-between">
+          <div>
+            <h3 class="font-bold text-slate-900 text-sm mb-1">Pipeline by Buyer Persona &amp; BU</h3>
+            <p class="text-xs text-slate-500 mb-4">$ MTA Influenced vs. $ GSD Created Pipeline share</p>
+            <div class="space-y-3.5" id="persona-bars-container"></div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500">
+            <strong class="text-slate-700">Key Insight:</strong> CIO/CTO &amp; CISO personas represent <span class="font-semibold text-blue-600">62.3%</span> of total MTA Influenced Pipeline and <span class="font-semibold text-blue-600">63.0%</span> of GSD Created Pipeline.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: NEXT-YEAR CONTENT PLAN & 2-QUARTER ROADMAP -->
+    <section id="tab-roadmap" class="tab-content hidden space-y-6">
+      <!-- Thematic Pillars + Plan Summary -->
+      <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-xs">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4 pb-4 border-b border-slate-100">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900">Next-Year Strategic Content Plan (2-Quarter H1 Monthly Roadmap + H2 Flagship Plays)</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Every planned asset is mapped to a high-performing Channel &times; Content Type combination from your MARZ attribution data</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="bg-blue-50 border border-blue-200 rounded-lg px-3 py-1.5 text-right">
+              <span class="text-xs text-blue-700 block">Projected GSD Created</span>
+              <span class="text-sm font-bold text-blue-900" id="roadmap-total-gsd">$58.9M</span>
+            </div>
+            <div class="bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-1.5 text-right">
+              <span class="text-xs text-emerald-700 block">Projected MTA Influenced</span>
+              <span class="text-sm font-bold text-emerald-900" id="roadmap-total-mta">$105.6M</span>
+            </div>
+            <button onclick="document.getElementById('add-initiative-modal').classList.remove('hidden')" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg transition cursor-pointer">
+              + Add Initiative
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="border-l-4 border-blue-600 pl-3">
+            <span class="font-bold text-slate-900 text-xs uppercase tracking-wide">Pillar 1: Autonomous Enterprise AI (CIO/CTO)</span>
+            <p class="text-xs text-slate-600 mt-1">Anchor on Content Syndication Whitepapers, Paid Social Ebooks, and Paid Search Now Assist Interactive Demos.</p>
+          </div>
+          <div class="border-l-4 border-indigo-600 pl-3">
+            <span class="font-bold text-slate-900 text-xs uppercase tracking-wide">Pillar 2: Connected SecOps &amp; Resilience (CISO)</span>
+            <p class="text-xs text-slate-600 mt-1">Anchor on SecOps Playbooks, Technical Spec Sheets (SEO/Direct), Live Teardown Webinars, and MTTR Case Studies.</p>
+          </div>
+          <div class="border-l-4 border-emerald-600 pl-3">
+            <span class="font-bold text-slate-900 text-xs uppercase tracking-wide">Pillar 3: Front-to-Back Workflows (COO/CFO/CHRO)</span>
+            <p class="text-xs text-slate-600 mt-1">Unify Customer Service (CSM), HRSD, and Source-to-Pay with cross-enterprise Case Studies and Guided Demos.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div class="flex flex-wrap items-center gap-1.5">
+          <button onclick="filterRoadmap('H1', this)" class="roadmap-filter-btn px-3 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-lg cursor-pointer">2-Quarter Roadmap (H1: Q1–Q2)</button>
+          <button onclick="filterRoadmap('all', this)" class="roadmap-filter-btn px-3 py-1.5 bg-white border border-slate-300 text-slate-700 text-xs font-semibold rounded-lg hover:bg-slate-50 cursor-pointer">Full Next-Year Plan (Q1–Q4)</button>
+          <button onclick="filterRoadmap('Q1', this)" class="roadmap-filter-btn px-3 py-1.5 bg-white border border-slate-300 text-slate-700 text-xs font-semibold rounded-lg hover:bg-slate-50 cursor-pointer">Q1 Only</button>
+          <button onclick="filterRoadmap('Q2', this)" class="roadmap-filter-btn px-3 py-1.5 bg-white border border-slate-300 text-slate-700 text-xs font-semibold rounded-lg hover:bg-slate-50 cursor-pointer">Q2 Only</button>
+          <button onclick="filterRoadmap('H2', this)" class="roadmap-filter-btn px-3 py-1.5 bg-white border border-slate-300 text-slate-700 text-xs font-semibold rounded-lg hover:bg-slate-50 cursor-pointer">H2 Expansion (Q3–Q4)</button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <select id="roadmap-persona-filter" onchange="renderRoadmap()" class="border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs bg-white text-slate-700">
+            <option value="all">All Personas</option>
+            <option value="CIO / CTO / App Dev">CIO / CTO / App Dev</option>
+            <option value="CISO & team">CISO &amp; team</option>
+            <option value="COO/CCO">COO/CCO</option>
+            <option value="CHRO/CFO/CPO">CHRO/CFO/CPO</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Roadmap Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="roadmap-cards-container"></div>
+    </section>
+
+    <!-- TAB 3: INTERACTIVE BUDGET SHIFT SIMULATOR -->
+    <section id="tab-simulator" class="tab-content hidden space-y-6">
+      <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-5 border-b border-slate-200">
+          <div>
+            <h3 class="font-bold text-slate-900 text-base">Interactive Next-Year Content Mix &amp; Budget Simulator</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Model the pipeline impact of shifting production &amp; distribution spend across formats based on historical MARZ conversion rates</p>
+          </div>
+          <button onclick="resetSimulator()" class="px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-medium text-slate-700 hover:bg-slate-50 cursor-pointer">
+            Reset to Recommended Shift
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+          <!-- Sliders Column -->
+          <div class="lg:col-span-2 space-y-5">
+            <!-- Slider 1 -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-xs font-bold text-slate-900">1. Infographics &amp; Generic Display Videos (Vanity Drain)</span>
+                <span class="text-xs font-bold text-rose-600" id="sim-val-vanity">-40%</span>
+              </div>
+              <p class="text-xs text-slate-500 mb-2">Historical Yield: $101 MTA/touch • 135–140d sales cycle • Only 6 Stage 2+ Optys from 14,600 interactions</p>
+              <input type="range" id="sim-vanity" min="-80" max="20" step="5" value="-40" oninput="updateSimulator()" class="w-full accent-rose-600 cursor-pointer">
+            </div>
+
+            <!-- Slider 2 -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-xs font-bold text-slate-900">2. Interactive Demos via Paid Search (BOFU Deal Closer)</span>
+                <span class="text-xs font-bold text-emerald-600" id="sim-val-demo">+30%</span>
+              </div>
+              <p class="text-xs text-slate-500 mb-2">Historical Yield: $8,138 MTA/touch • 48d sales cycle • 84.8% Stage 1 &rarr; Stage 2+ conversion</p>
+              <input type="range" id="sim-demo" min="-20" max="60" step="5" value="30" oninput="updateSimulator()" class="w-full accent-emerald-600 cursor-pointer">
+            </div>
+
+            <!-- Slider 3 -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-xs font-bold text-slate-900">3. Whitepapers via Content Syndication (Pre-Pipeline Engine)</span>
+                <span class="text-xs font-bold text-blue-600" id="sim-val-wp">+25%</span>
+              </div>
+              <p class="text-xs text-slate-500 mb-2">Historical Yield: $6,244 MTA/touch • #1 MARZ Markov Rank • 61.0% Net New Interactions</p>
+              <input type="range" id="sim-wp" min="-20" max="60" step="5" value="25" oninput="updateSimulator()" class="w-full accent-blue-600 cursor-pointer">
+            </div>
+
+            <!-- Slider 4 -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-xs font-bold text-slate-900">4. Long-Form Ebooks via Paid Social &amp; Solution Briefs via SEO</span>
+                <span class="text-xs font-bold text-indigo-600" id="sim-val-ebook">+15%</span>
+              </div>
+              <p class="text-xs text-slate-500 mb-2">Historical Yield: +136% Paid Social MTA lift • 5,370 combined Net New Interactions</p>
+              <input type="range" id="sim-ebook" min="-20" max="60" step="5" value="15" oninput="updateSimulator()" class="w-full accent-indigo-600 cursor-pointer">
+            </div>
+          </div>
+
+          <!-- Output Impact Column -->
+          <div class="bg-gradient-to-b from-slate-900 to-indigo-950 text-white rounded-xl p-6 flex flex-col justify-between">
+            <div>
+              <span class="text-xs uppercase tracking-wider text-indigo-300 font-semibold">Projected Next-Year Impact</span>
+              <h4 class="text-lg font-bold mt-1">Simulated Pipeline Outcome</h4>
+
+              <div class="mt-5 space-y-4">
+                <div class="bg-white/10 rounded-lg p-3.5 border border-white/10">
+                  <span class="text-xs text-indigo-200 block">Projected $ MTA Influenced Pipeline</span>
+                  <div class="flex items-baseline justify-between mt-1">
+                    <span class="text-2xl font-bold text-white" id="sim-out-mta">$156.8M</span>
+                    <span class="text-xs font-semibold text-emerald-400" id="sim-out-mta-delta">+$19.3M (+14.1%)</span>
+                  </div>
+                </div>
+
+                <div class="bg-white/10 rounded-lg p-3.5 border border-white/10">
+                  <span class="text-xs text-indigo-200 block">Projected $ GSD Created Pipeline</span>
+                  <div class="flex items-baseline justify-between mt-1">
+                    <span class="text-2xl font-bold text-white" id="sim-out-gsd">$85.4M</span>
+                    <span class="text-xs font-semibold text-emerald-400" id="sim-out-gsd-delta">+$11.1M (+14.9%)</span>
+                  </div>
+                </div>
+
+                <div class="bg-white/10 rounded-lg p-3.5 border border-white/10">
+                  <span class="text-xs text-indigo-200 block">Projected # Stage 2+ Opportunities</span>
+                  <div class="flex items-baseline justify-between mt-1">
+                    <span class="text-2xl font-bold text-white" id="sim-out-stage2">842 Optys</span>
+                    <span class="text-xs font-semibold text-emerald-400" id="sim-out-stage2-delta">+105 Deals</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-white/15 text-xs text-indigo-200 leading-relaxed">
+              Reallocating low-converting TOFU display spend into high-velocity MOFU/BOFU assets reduces average sales cycle by <strong class="text-white" id="sim-out-cycle">-9 days</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: EVALUATED ASSET LIBRARY & ATTRIBUTION TABLE -->
+    <section id="tab-assets" class="tab-content hidden space-y-4">
+      <div class="bg-white rounded-xl border border-slate-200 shadow-xs p-5">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+          <div>
+            <h3 class="font-bold text-slate-900 text-sm">Evaluated Content Asset Library (Full ServiceNow Schema)</h3>
+            <p class="text-xs text-slate-500">Showing all 8 core metrics across every evaluated asset</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+            <select id="asset-channel-filter" onchange="filterAssetTable()" class="border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs bg-white text-slate-700">
+              <option value="all">All 6 Channels</option>
+              <option value="Content Syndication">Content Syndication</option>
+              <option value="Paid Social">Paid Social</option>
+              <option value="SEO/Direct">SEO/Direct</option>
+              <option value="Paid Search">Paid Search</option>
+              <option value="Email">Email</option>
+              <option value="Direct Events">Direct Events</option>
+            </select>
+            <input type="text" id="asset-search" oninput="filterAssetTable()" placeholder="Search asset, BU, persona, format..." class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs w-full sm:w-64 focus:outline-blue-600">
+          </div>
+        </div>
+
+        <div class="overflow-x-auto custom-scroll">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th class="py-2.5 px-3">Asset Title &amp; Type</th>
+                <th class="py-2.5 px-3">Channel</th>
+                <th class="py-2.5 px-3">Persona / BU</th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Total views, downloads, or clicks on this content asset."># Interactions</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Deduplicated count of individual prospects who engaged with this asset."># Unique Leads</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Engagements from brand-new prospects who were NOT previously active in our database."># Net New</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Marketing Qualified Leads: Prospects scored high enough to route to GSD (SDRs) for sales outreach."># MQLs</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Stage 1 Opportunities: Early discovery deals opened after an initial sales meeting.">Stage 1</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Stage 2+ Opportunities: Validated, sales-accepted pipeline deals with confirmed budget and authority.">Stage 2+</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Global Sales Development (GSD) Created Pipeline: Deals originated directly by SDRs following up on this asset.">$ GSD Created</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Multi-Touch Attribution (MTA) Pipeline: Weighted dollar value of all sales deals influenced by this asset.">$ MTA Influenced</span></th>
+                <th class="py-2.5 px-3 text-right"><span data-tip="Average number of days from initial content engagement to Stage 2+ deal progression.">Cycle</span></th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100" id="asset-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: ASK GEMINI STRATEGY COPILOT -->
+    <section id="tab-copilot" class="tab-content hidden space-y-4">
+      <div class="bg-white rounded-xl border border-slate-200 shadow-xs flex flex-col h-[620px] overflow-hidden">
+        <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
+          <div class="flex items-center space-x-3">
+            <div class="bg-indigo-600 text-white w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-slate-900 text-sm">Gemini Strategy &amp; Executive Copilot</h3>
+              <p class="text-xs text-slate-500">Grounded in ServiceNow MARZ Multi-Stage Attribution, Channel &amp; Content Type Data</p>
+            </div>
+          </div>
+          <span class="text-xs bg-indigo-50 text-indigo-700 font-semibold px-2.5 py-0.5 rounded-full border border-indigo-200">
+            Live Data Grounding
+          </span>
+        </div>
+
+        <div class="flex-1 p-6 overflow-y-auto space-y-4 custom-scroll" id="chat-messages">
+          <div class="flex items-start space-x-3">
+            <div class="bg-indigo-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shrink-0 mt-0.5">G</div>
+            <div class="bg-slate-100 rounded-2xl rounded-tl-none p-4 text-xs text-slate-800 max-w-2xl leading-relaxed">
+              Hello Brianna! I am your <strong>Gemini Content Strategy Copilot</strong>. I have analyzed all 8 ServiceNow MARZ metrics across your 6 channels (<em>Content Syndication, Paid Social, SEO/Direct, Paid Search, Email, Direct Events</em>) and content types.
+              <br><br>
+              Click any prompt below or ask me a custom question to generate data-backed talking points for your boss.
+            </div>
+          </div>
+        </div>
+
+        <!-- Prompt Chips -->
+        <div class="px-6 py-2.5 bg-slate-50 border-t border-slate-100 flex flex-wrap gap-2 text-xs">
+          <button onclick="sendQuickPrompt('How do our 6 channels compare across GSD Created and MTA Influenced Pipeline?')" class="bg-white border border-slate-300 hover:border-blue-500 px-3 py-1 rounded-full text-slate-700 hover:text-blue-600 transition cursor-pointer">
+            📡 Channel Breakdown
+          </button>
+          <button onclick="sendQuickPrompt('Why are we recommending shifting budget away from infographics and generic videos?')" class="bg-white border border-slate-300 hover:border-blue-500 px-3 py-1 rounded-full text-slate-700 hover:text-blue-600 transition cursor-pointer">
+            💡 Why cut infographics?
+          </button>
+          <button onclick="sendQuickPrompt('What is our strategy for the CISO audience in Q1 and Q2?')" class="bg-white border border-slate-300 hover:border-blue-500 px-3 py-1 rounded-full text-slate-700 hover:text-blue-600 transition cursor-pointer">
+            🛡️ CISO Strategy
+          </button>
+          <button onclick="sendQuickPrompt('What is our CIO and IT App Dev strategy?')" class="bg-white border border-slate-300 hover:border-blue-500 px-3 py-1 rounded-full text-slate-700 hover:text-blue-600 transition cursor-pointer">
+            💻 CIO &amp; IT Strategy
+          </button>
+          <button onclick="sendQuickPrompt('Which content formats give us the highest pipeline efficiency?')" class="bg-white border border-slate-300 hover:border-blue-500 px-3 py-1 rounded-full text-slate-700 hover:text-blue-600 transition cursor-pointer">
+            📊 Top Formats by ROI
+          </button>
+          <button onclick="sendQuickPrompt('Summarize the 2-quarter roadmap and next-year plan for my boss')" class="bg-white border border-slate-300 hover:border-blue-500 px-3 py-1 rounded-full text-slate-700 hover:text-blue-600 transition cursor-pointer">
+            📝 Executive Summary for Boss
+          </button>
+        </div>
+
+        <!-- Input -->
+        <div class="p-4 bg-white border-t border-slate-200">
+          <form onsubmit="handleChatSubmit(event)" class="flex space-x-2">
+            <input type="text" id="chat-input" placeholder="Ask about channels, formats, CISO/CIO plays, or budget shifts..." class="flex-1 border border-slate-300 rounded-lg px-4 py-2.5 text-xs focus:outline-blue-600">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-xs font-semibold transition cursor-pointer">
+              Ask Gemini
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ACRONYM & METRIC GLOSSARY MODAL -->
+  <div id="glossary-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 hidden z-50">
+    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 max-h-[85vh] overflow-y-auto custom-scroll">
+      <div class="flex justify-between items-center mb-3 pb-3 border-b border-slate-200">
+        <div>
+          <h3 class="font-bold text-slate-900 text-base">ServiceNow MARZ Acronym &amp; Metric Guide</h3>
+          <p class="text-xs text-slate-500">Plain-English definitions for every metric in this dashboard</p>
+        </div>
+        <button onclick="document.getElementById('glossary-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 text-sm font-bold px-2 cursor-pointer">✕</button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200">
+          <div class="font-bold text-emerald-900">$ Marketing Influenced Pipeline (MTA — Multi-Touch Attribution)</div>
+          <p class="text-emerald-800 mt-1">In enterprise B2B sales, buyers engage with multiple assets before purchasing. Instead of giving 100% of credit to a single click, <strong>Multi-Touch Attribution (MTA)</strong> shares dollar pipeline credit across every content asset that helped educate or accelerate the buying committee across the deal cycle.</p>
+        </div>
+        <div class="p-3 rounded-xl bg-blue-50 border border-blue-200">
+          <div class="font-bold text-blue-900">$ GSD Created Pipeline (Global Sales Development)</div>
+          <p class="text-blue-800 mt-1"><strong>GSD</strong> is ServiceNow's <strong>Global Sales Development</strong> team (SDRs / BDRs). This metric measures the dollar value of brand-new sales opportunities directly originated and booked by SDRs following up on leads from your content.</p>
+        </div>
+        <div class="p-3 rounded-xl bg-indigo-50 border border-indigo-200">
+          <div class="font-bold text-indigo-900"># Stage 1 Optys vs. # Stage 2+ Optys (Sales Opportunities)</div>
+          <p class="text-indigo-800 mt-1"><strong>Optys</strong> = Sales Opportunities in CRM. <strong>Stage 1</strong> means a rep held an initial discovery call and opened an early potential deal. <strong>Stage 2+</strong> means the deal passed strict qualification (confirmed budget, authority, need, timeline) and is accepted as official Sales Pipeline. High Stage 1 &rarr; Stage 2+ conversion proves your content attracts serious buyers.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="font-bold text-slate-900"># Interactions &amp; # Unique Leads</div>
+            <p class="text-slate-600 mt-1"><strong>Interactions</strong> = Total clicks, views, or downloads. <strong>Unique Leads</strong> = Deduplicated count of individual people who engaged.</p>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="font-bold text-slate-900"># Net New Interactions</div>
+            <p class="text-slate-600 mt-1">Engagements from <strong>brand-new people</strong> who were not previously active in ServiceNow's database (measures net-new logo reach).</p>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="font-bold text-slate-900"># MQLs (Marketing Qualified Leads)</div>
+            <p class="text-slate-600 mt-1">Leads whose content engagement and buyer profile scored high enough to send to the GSD (SDR) team for outreach.</p>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="font-bold text-slate-900">MARZ</div>
+            <p class="text-slate-600 mt-1"><strong>Marketing Analytics &amp; Results Zone</strong> — ServiceNow's internal Power BI analytics portal where multi-stage attribution data lives.</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 pt-3 border-t border-slate-200 flex justify-end">
+        <button onclick="document.getElementById('glossary-modal').classList.add('hidden')" class="px-4 py-2 bg-slate-900 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 cursor-pointer">Got It</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- UPLOAD / SWAP REAL DATA MODAL -->
+  <div id="upload-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 hidden z-50">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="font-bold text-slate-900 text-base">Swap in Real ServiceNow Export (CSV or JSON)</h3>
+        <button onclick="document.getElementById('upload-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 text-sm font-bold px-2">✕</button>
+      </div>
+      <p class="text-xs text-slate-600 mb-4 leading-relaxed">
+        When your analytics colleague sends the real Power BI / MARZ export or fixes your RLS, drop the `.csv` or `.json` file here. The engine automatically maps ServiceNow column headers (`# Interactions`, `# Unique Leads`, `# Net New Interactions`, `# MQLs`, `# Stage 1 Optys`, `# Stage 2+ Optys`, `$ GSD Created Pipeline`, `$ Marketing Influenced Pipeline (MTA)`) and recalculates the entire dashboard and roadmap.
+      </p>
+
+      <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center hover:border-blue-500 cursor-pointer transition bg-slate-50" onclick="document.getElementById('csv-file-input').click()">
+        <p class="text-sm font-semibold text-slate-800">Click to select CSV or JSON file</p>
+        <p class="text-xs text-slate-500 mt-1">Supports standard ServiceNow MARZ exports &amp; custom CSVs</p>
+        <input type="file" id="csv-file-input" accept=".csv,.json" class="hidden" onchange="handleFileUpload(event)">
+      </div>
+
+      <div class="mt-4 flex justify-between items-center">
+        <button onclick="resetToDefaultData()" class="px-3 py-2 text-xs text-slate-600 hover:text-slate-900 underline cursor-pointer">Reset to Default Pilot Dataset</button>
+        <button onclick="document.getElementById('upload-modal').classList.add('hidden')" class="px-4 py-2 border border-slate-300 text-xs rounded-lg text-slate-700 hover:bg-slate-50 font-medium cursor-pointer">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD INITIATIVE MODAL -->
+  <div id="add-initiative-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 hidden z-50">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-bold text-slate-900 text-base">Add Custom Content Plan Initiative</h3>
+        <button onclick="document.getElementById('add-initiative-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 text-sm font-bold px-2">✕</button>
+      </div>
+      <form onsubmit="handleAddInitiative(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">Initiative Title</label>
+          <input type="text" id="new-init-title" required placeholder="e.g., Autonomous ITOM Resilience Blueprint" class="w-full border border-slate-300 rounded-lg px-3 py-2">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Quarter &amp; Timing</label>
+            <select id="new-init-quarter" class="w-full border border-slate-300 rounded-lg px-3 py-2 bg-white">
+              <option value="Q1|H1|Month 1 (Jan)">Q1 • Month 1 (Jan)</option>
+              <option value="Q1|H1|Month 2 (Feb)">Q1 • Month 2 (Feb)</option>
+              <option value="Q1|H1|Month 3 (Mar)">Q1 • Month 3 (Mar)</option>
+              <option value="Q2|H1|Month 4 (Apr)">Q2 • Month 4 (Apr)</option>
+              <option value="Q2|H1|Month 5 (May)">Q2 • Month 5 (May)</option>
+              <option value="Q2|H1|Month 6 (Jun)">Q2 • Month 6 (Jun)</option>
+              <option value="Q3|H2|Q3 Flagship (Jul–Sep)">Q3 • Flagship (Jul–Sep)</option>
+              <option value="Q4|H2|Q4 Flagship (Oct–Dec)">Q4 • Flagship (Oct–Dec)</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Content Type</label>
+            <select id="new-init-format" class="w-full border border-slate-300 rounded-lg px-3 py-2 bg-white">
+              <option value="Whitepaper">Whitepaper (Ebook/Whitepaper)</option>
+              <option value="Ebook">Ebook (Ebook/Whitepaper)</option>
+              <option value="Demo">Demo</option>
+              <option value="Solution Brief">Solution Brief</option>
+              <option value="Case Study">Case Study</option>
+              <option value="Data Sheet">Data Sheet</option>
+              <option value="Analyst Report">Analyst Report</option>
+              <option value="Webinar">Webinar</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Primary Channel</label>
+            <select id="new-init-channel" class="w-full border border-slate-300 rounded-lg px-3 py-2 bg-white">
+              <option value="Content Syndication">Content Syndication</option>
+              <option value="Paid Social">Paid Social</option>
+              <option value="SEO/Direct">SEO/Direct</option>
+              <option value="Paid Search">Paid Search</option>
+              <option value="Email">Email</option>
+              <option value="Direct Events">Direct Events</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Target Persona &amp; BU</label>
+            <select id="new-init-persona" class="w-full border border-slate-300 rounded-lg px-3 py-2 bg-white">
+              <option value="CIO / CTO / App Dev|IT & App Development">CIO / CTO / App Dev (IT)</option>
+              <option value="CISO & team|Security & Risk">CISO &amp; team (Security &amp; Risk)</option>
+              <option value="COO/CCO|CRM">COO/CCO (CRM)</option>
+              <option value="CHRO/CFO/CPO|HR & Finance/Supply Chain">CHRO/CFO/CPO (HR &amp; Finance)</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Target GSD Created ($M)</label>
+            <input type="number" step="0.1" id="new-init-gsd" value="3.5" required class="w-full border border-slate-300 rounded-lg px-3 py-2">
+          </div>
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Target MTA Influenced ($M)</label>
+            <input type="number" step="0.1" id="new-init-mta" value="6.2" required class="w-full border border-slate-300 rounded-lg px-3 py-2">
+          </div>
+        </div>
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">Historical Data Justification</label>
+          <input type="text" id="new-init-defense" value="Backed by MARZ top-quartile conversion velocity and net-new account engagement." class="w-full border border-slate-300 rounded-lg px-3 py-2">
+        </div>
+        <div class="pt-3 flex justify-end gap-2">
+          <button type="button" onclick="document.getElementById('add-initiative-modal').classList.add('hidden')" class="px-4 py-2 border border-slate-300 rounded-lg text-slate-600">Cancel</button>
+          <button type="submit" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 cursor-pointer">Add to Plan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- EXECUTIVE MEMO MODAL -->
+  <div id="memo-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 hidden z-50">
+    <div class="bg-white rounded-2xl max-w-3xl w-full p-6 shadow-2xl border border-slate-200 max-h-[85vh] flex flex-col">
+      <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-200">
+        <div>
+          <h3 class="font-bold text-slate-900 text-base">Executive Strategy Memo (Ready for Leadership)</h3>
+          <p class="text-xs text-slate-500">Generated dynamically from your active dataset &amp; Next-Year Roadmap</p>
+        </div>
+        <button onclick="document.getElementById('memo-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 text-sm font-bold px-2">✕</button>
+      </div>
+      <div class="flex-1 overflow-y-auto bg-slate-50 p-5 rounded-xl border border-slate-200 text-xs font-mono whitespace-pre-wrap text-slate-800 leading-relaxed custom-scroll" id="memo-content"></div>
+      <div class="mt-4 pt-3 border-t border-slate-200 flex justify-end gap-2">
+        <button onclick="downloadMemoFile()" class="px-4 py-2 border border-slate-300 text-slate-700 font-medium text-xs rounded-lg hover:bg-slate-50 cursor-pointer">
+          Download .MD File
+        </button>
+        <button onclick="copyMemoToClipboard(this)" class="px-4 py-2 bg-blue-600 text-white font-semibold text-xs rounded-lg hover:bg-blue-700 cursor-pointer">
+          Copy to Clipboard
+        </button>
+        <button onclick="document.getElementById('memo-modal').classList.add('hidden')" class="px-4 py-2 border border-slate-300 text-xs rounded-lg text-slate-600 font-medium cursor-pointer">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DEFAULT_ITEMS = [
+      {"asset_id":"SEC-WP-01","asset_title":"The CISO's Blueprint: Modernizing SecOps with Autonomous AI Workflows","content_type":"Whitepaper","content_category":"Ebook/Whitepaper","primary_channel":"Content Syndication","product_bu":"Security & Risk","target_persona":"CISO & team","funnel_stage":"TOFU","interactions":1420,"unique_leads":980,"net_new_interactions":890,"mqls":420,"stage_1_optys":68,"stage_2_optys":42,"gsd_created_pipeline_usd":4850000,"pipeline_created_usd":4850000,"mktg_influenced_pipeline_usd":8600000,"avg_deal_size_usd":185000,"avg_sales_cycle_days":88,"quarter":"26-Q1"},
+      {"asset_id":"SEC-DS-02","asset_title":"ServiceNow Security Operations Architecture & Integration Spec Sheet","content_type":"Data Sheet","content_category":"Data Sheet","primary_channel":"SEO/Direct","product_bu":"Security & Risk","target_persona":"CISO & team","funnel_stage":"MOFU","interactions":890,"unique_leads":510,"net_new_interactions":340,"mqls":290,"stage_1_optys":52,"stage_2_optys":38,"gsd_created_pipeline_usd":3950000,"pipeline_created_usd":3950000,"mktg_influenced_pipeline_usd":6200000,"avg_deal_size_usd":160000,"avg_sales_cycle_days":65,"quarter":"26-Q2"},
+      {"asset_id":"SEC-CS-03","asset_title":"Global Financial Leader Slashes MTTR by 64% with SecOps & Threat Intelligence","content_type":"Case Study","content_category":"Case Study","primary_channel":"Email","product_bu":"Security & Risk","target_persona":"CISO & team","funnel_stage":"BOFU","interactions":380,"unique_leads":190,"net_new_interactions":75,"mqls":85,"stage_1_optys":22,"stage_2_optys":29,"gsd_created_pipeline_usd":1200000,"pipeline_created_usd":1200000,"mktg_influenced_pipeline_usd":4900000,"avg_deal_size_usd":210000,"avg_sales_cycle_days":42,"quarter":"26-Q2"},
+      {"asset_id":"SEC-AR-04","asset_title":"Gartner Magic Quadrant for Security Information & Event Management (SIEM)","content_type":"Analyst Report","content_category":"Analyst Report","primary_channel":"Paid Social","product_bu":"Security & Risk","target_persona":"CISO & team","funnel_stage":"TOFU","interactions":2450,"unique_leads":1620,"net_new_interactions":1410,"mqls":510,"stage_1_optys":45,"stage_2_optys":28,"gsd_created_pipeline_usd":3100000,"pipeline_created_usd":3100000,"mktg_influenced_pipeline_usd":5400000,"avg_deal_size_usd":140000,"avg_sales_cycle_days":105,"quarter":"26-Q1"},
+      {"asset_id":"SEC-WB-05","asset_title":"Live Teardown: Why Threat Intel Fails Without Purpose-Built Workflow Automation","content_type":"Webinar","content_category":"Webinar","primary_channel":"Direct Events","product_bu":"Security & Risk","target_persona":"CISO & team","funnel_stage":"MOFU","interactions":720,"unique_leads":480,"net_new_interactions":295,"mqls":310,"stage_1_optys":41,"stage_2_optys":34,"gsd_created_pipeline_usd":3400000,"pipeline_created_usd":3400000,"mktg_influenced_pipeline_usd":5100000,"avg_deal_size_usd":175000,"avg_sales_cycle_days":58,"quarter":"26-Q3"},
+      {"asset_id":"IT-EB-01","asset_title":"The Strategic CIO's Guide to Generative AI Across the IT Estate","content_type":"Ebook","content_category":"Ebook/Whitepaper","primary_channel":"Paid Social","product_bu":"IT & App Development","target_persona":"CIO / CTO / App Dev","funnel_stage":"TOFU","interactions":3800,"unique_leads":2450,"net_new_interactions":2180,"mqls":790,"stage_1_optys":84,"stage_2_optys":56,"gsd_created_pipeline_usd":6800000,"pipeline_created_usd":6800000,"mktg_influenced_pipeline_usd":12400000,"avg_deal_size_usd":220000,"avg_sales_cycle_days":92,"quarter":"26-Q1"},
+      {"asset_id":"IT-WP-02","asset_title":"From Service Desk to Autonomous IT: Architecting ITSM & ITOM for Enterprise AI","content_type":"Whitepaper","content_category":"Ebook/Whitepaper","primary_channel":"Content Syndication","product_bu":"IT & App Development","target_persona":"CIO / CTO / App Dev","funnel_stage":"TOFU","interactions":1950,"unique_leads":1340,"net_new_interactions":1210,"mqls":580,"stage_1_optys":76,"stage_2_optys":61,"gsd_created_pipeline_usd":7100000,"pipeline_created_usd":7100000,"mktg_influenced_pipeline_usd":14100000,"avg_deal_size_usd":240000,"avg_sales_cycle_days":80,"quarter":"26-Q2"},
+      {"asset_id":"IT-SB-03","asset_title":"App Engine vs. Custom Coding: ROI & Governance Solution Brief","content_type":"Solution Brief","content_category":"Solution Brief","primary_channel":"SEO/Direct","product_bu":"IT & App Development","target_persona":"CIO / CTO / App Dev","funnel_stage":"MOFU","interactions":1120,"unique_leads":690,"net_new_interactions":520,"mqls":390,"stage_1_optys":58,"stage_2_optys":49,"gsd_created_pipeline_usd":4900000,"pipeline_created_usd":4900000,"mktg_influenced_pipeline_usd":8500000,"avg_deal_size_usd":190000,"avg_sales_cycle_days":62,"quarter":"26-Q2"},
+      {"asset_id":"IT-DM-04","asset_title":"Interactive Platform Tour: Now Assist for IT Service Management (ITSM)","content_type":"Demo","content_category":"Demo","primary_channel":"Paid Search","product_bu":"IT & App Development","target_persona":"CIO / CTO / App Dev","funnel_stage":"BOFU","interactions":1450,"unique_leads":820,"net_new_interactions":640,"mqls":540,"stage_1_optys":92,"stage_2_optys":78,"gsd_created_pipeline_usd":8200000,"pipeline_created_usd":8200000,"mktg_influenced_pipeline_usd":11800000,"avg_deal_size_usd":210000,"avg_sales_cycle_days":48,"quarter":"26-Q3"},
+      {"asset_id":"IT-CS-05","asset_title":"How Siemens Accelerated App Modernization by 5x with App Engine","content_type":"Case Study","content_category":"Case Study","primary_channel":"Email","product_bu":"IT & App Development","target_persona":"CIO / CTO / App Dev","funnel_stage":"BOFU","interactions":640,"unique_leads":310,"net_new_interactions":140,"mqls":160,"stage_1_optys":34,"stage_2_optys":41,"gsd_created_pipeline_usd":2600000,"pipeline_created_usd":2600000,"mktg_influenced_pipeline_usd":7200000,"avg_deal_size_usd":260000,"avg_sales_cycle_days":39,"quarter":"26-Q3"},
+      {"asset_id":"CRM-EB-01","asset_title":"Beyond the Chatbot: Transforming Front-Office Customer Service with Connected Operations","content_type":"Ebook","content_category":"Ebook/Whitepaper","primary_channel":"Paid Social","product_bu":"CRM","target_persona":"COO/CCO","funnel_stage":"TOFU","interactions":2650,"unique_leads":1720,"net_new_interactions":1490,"mqls":510,"stage_1_optys":48,"stage_2_optys":32,"gsd_created_pipeline_usd":3800000,"pipeline_created_usd":3800000,"mktg_influenced_pipeline_usd":6900000,"avg_deal_size_usd":150000,"avg_sales_cycle_days":95,"quarter":"26-Q1"},
+      {"asset_id":"CRM-WP-02","asset_title":"Connected Customer Workflows: Unifying Front, Middle, and Back Office","content_type":"Whitepaper","content_category":"Ebook/Whitepaper","primary_channel":"Content Syndication","product_bu":"CRM","target_persona":"COO/CCO","funnel_stage":"TOFU","interactions":1380,"unique_leads":890,"net_new_interactions":810,"mqls":380,"stage_1_optys":44,"stage_2_optys":39,"gsd_created_pipeline_usd":4100000,"pipeline_created_usd":4100000,"mktg_influenced_pipeline_usd":7800000,"avg_deal_size_usd":165000,"avg_sales_cycle_days":78,"quarter":"26-Q2"},
+      {"asset_id":"CRM-AR-03","asset_title":"Forrester Wave: Customer Service Solutions for Enterprise Organizations","content_type":"Analyst Report","content_category":"Analyst Report","primary_channel":"Paid Search","product_bu":"CRM","target_persona":"COO/CCO","funnel_stage":"TOFU","interactions":1820,"unique_leads":1180,"net_new_interactions":960,"mqls":420,"stage_1_optys":38,"stage_2_optys":27,"gsd_created_pipeline_usd":2900000,"pipeline_created_usd":2900000,"mktg_influenced_pipeline_usd":5800000,"avg_deal_size_usd":145000,"avg_sales_cycle_days":110,"quarter":"26-Q1"},
+      {"asset_id":"CRM-CS-04","asset_title":"BT Delivers First-Contact Resolution at Scale with ServiceNow CSM","content_type":"Case Study","content_category":"Case Study","primary_channel":"SEO/Direct","product_bu":"CRM","target_persona":"COO/CCO","funnel_stage":"BOFU","interactions":490,"unique_leads":260,"net_new_interactions":150,"mqls":130,"stage_1_optys":26,"stage_2_optys":31,"gsd_created_pipeline_usd":1800000,"pipeline_created_usd":1800000,"mktg_influenced_pipeline_usd":5100000,"avg_deal_size_usd":195000,"avg_sales_cycle_days":44,"quarter":"26-Q3"},
+      {"asset_id":"HR-WP-01","asset_title":"The Unified Employee Journey: Eliminating Workplace Silos with Digital Workflows","content_type":"Whitepaper","content_category":"Ebook/Whitepaper","primary_channel":"Content Syndication","product_bu":"HR & Finance/Supply Chain","target_persona":"CHRO/CFO/CPO","funnel_stage":"TOFU","interactions":1640,"unique_leads":1100,"net_new_interactions":990,"mqls":470,"stage_1_optys":54,"stage_2_optys":46,"gsd_created_pipeline_usd":5200000,"pipeline_created_usd":5200000,"mktg_influenced_pipeline_usd":9400000,"avg_deal_size_usd":170000,"avg_sales_cycle_days":74,"quarter":"26-Q2"},
+      {"asset_id":"HR-EB-02","asset_title":"Automating Enterprise Procurement & Source-to-Pay: The CFO Playbook","content_type":"Ebook","content_category":"Ebook/Whitepaper","primary_channel":"Paid Social","product_bu":"HR & Finance/Supply Chain","target_persona":"CHRO/CFO/CPO","funnel_stage":"TOFU","interactions":2100,"unique_leads":1390,"net_new_interactions":1180,"mqls":430,"stage_1_optys":42,"stage_2_optys":34,"gsd_created_pipeline_usd":3700000,"pipeline_created_usd":3700000,"mktg_influenced_pipeline_usd":6800000,"avg_deal_size_usd":160000,"avg_sales_cycle_days":84,"quarter":"26-Q1"},
+      {"asset_id":"HR-WB-03","asset_title":"Fireside Chat: AI in HR Service Delivery & Talent Onboarding","content_type":"Webinar","content_category":"Webinar","primary_channel":"Direct Events","product_bu":"HR & Finance/Supply Chain","target_persona":"CHRO/CFO/CPO","funnel_stage":"MOFU","interactions":680,"unique_leads":440,"net_new_interactions":270,"mqls":280,"stage_1_optys":36,"stage_2_optys":31,"gsd_created_pipeline_usd":2800000,"pipeline_created_usd":2800000,"mktg_influenced_pipeline_usd":4900000,"avg_deal_size_usd":155000,"avg_sales_cycle_days":54,"quarter":"26-Q3"},
+      {"asset_id":"HR-DS-04","asset_title":"HR Service Delivery (HRSD) Technical Specifications & Workday Integration","content_type":"Data Sheet","content_category":"Data Sheet","primary_channel":"SEO/Direct","product_bu":"HR & Finance/Supply Chain","target_persona":"CHRO/CFO/CPO","funnel_stage":"MOFU","interactions":790,"unique_leads":420,"net_new_interactions":310,"mqls":250,"stage_1_optys":40,"stage_2_optys":35,"gsd_created_pipeline_usd":3200000,"pipeline_created_usd":3200000,"mktg_influenced_pipeline_usd":5100000,"avg_deal_size_usd":150000,"avg_sales_cycle_days":60,"quarter":"26-Q2"},
+      {"asset_id":"GEN-INF-01","asset_title":"Infographic: 10 Wild Stats About Enterprise AI Adoption in 2026","content_type":"Infographic","content_category":"Infographic","primary_channel":"Paid Social","product_bu":"IT & App Development","target_persona":"CIO / CTO / App Dev","funnel_stage":"TOFU","interactions":8400,"unique_leads":3900,"net_new_interactions":3100,"mqls":320,"stage_1_optys":12,"stage_2_optys":4,"gsd_created_pipeline_usd":450000,"pipeline_created_usd":450000,"mktg_influenced_pipeline_usd":850000,"avg_deal_size_usd":85000,"avg_sales_cycle_days":135,"quarter":"26-Q1"},
+      {"asset_id":"GEN-VID-02","asset_title":"Quick Explainer Video: What Is Digital Workflow Automation?","content_type":"Video","content_category":"Video","primary_channel":"Paid Social","product_bu":"IT & App Development","target_persona":"CIO / CTO / App Dev","funnel_stage":"TOFU","interactions":6200,"unique_leads":2100,"net_new_interactions":1650,"mqls":180,"stage_1_optys":8,"stage_2_optys":2,"gsd_created_pipeline_usd":280000,"pipeline_created_usd":280000,"mktg_influenced_pipeline_usd":620000,"avg_deal_size_usd":90000,"avg_sales_cycle_days":140,"quarter":"26-Q2"}
+    ];
+
+    let appData = null;
+    let roadmapData = [];
+    let currentFormatView = 'granular';
+    let currentRoadmapQuarterFilter = 'H1';
+
+    function normalizeRow(raw, idx) {
+      const getNum = (keys, def) => {
+        for (const k of keys) {
+          if (raw[k] !== undefined && raw[k] !== null && raw[k] !== '') {
+            const cleaned = String(raw[k]).replace(/[$,]/g, '').trim();
+            const n = Number(cleaned);
+            if (!isNaN(n)) return n;
+          }
+        }
+        return def;
+      };
+      const getStr = (keys, def) => {
+        for (const k of keys) {
+          if (raw[k] !== undefined && raw[k] !== null && String(raw[k]).trim() !== '') {
+            return String(raw[k]).trim();
+          }
+        }
+        return def;
+      };
+
+      const interactions = Math.round(getNum(['interactions', '# Interactions', 'Interactions'], 500));
+      const unique_leads = Math.round(getNum(['unique_leads', '# Unique Leads', 'Unique Leads'], Math.round(interactions * 0.55)));
+      const net_new = Math.round(getNum(['net_new_interactions', '# Net New Interactions', 'Net New Interactions'], Math.round(interactions * 0.50)));
+      const mqls = Math.round(getNum(['mqls', '# MQLs', 'MQLs'], Math.round(unique_leads * 0.30)));
+      const stage_1 = Math.round(getNum(['stage_1_optys', '# Stage 1 Optys', 'Stage 1 Optys'], Math.max(1, Math.round(mqls * 0.12))));
+      const stage_2 = Math.round(getNum(['stage_2_optys', '# Stage 2+ Optys', 'Stage 2+ Optys', 'Stage 2 Optys'], Math.max(1, Math.round(stage_1 * 0.75))));
+      const gsd_pipe = getNum(['gsd_created_pipeline_usd', 'pipeline_created_usd', '$ GSD Created Pipeline', 'GSD Created Pipeline'], 1000000);
+      const mta_pipe = getNum(['mktg_influenced_pipeline_usd', '$ Marketing Influenced Pipeline (MTA)', 'Marketing Influenced Pipeline (MTA)', 'Influenced Pipeline'], gsd_pipe * 1.8);
+
+      const content_type = getStr(['content_type', 'Content Type', 'Type'], 'Whitepaper');
+      const content_category = (content_type === 'Whitepaper' || content_type === 'Ebook') ? 'Ebook/Whitepaper' : getStr(['content_category', 'Content Category'], content_type);
+
+      let channel = getStr(['primary_channel', 'Channel', 'Primary Channel'], 'Content Syndication');
+      const channelMap = {
+        'Digital - Content Syndication': 'Content Syndication',
+        'Digital - SEO & Direct Referral': 'SEO/Direct',
+        'Digital - Paid Social': 'Paid Social',
+        'Digital - Paid Search': 'Paid Search',
+        'Digital - Email': 'Email',
+        'Direct - Event': 'Direct Events',
+        'Digital - Display': 'Paid Social'
+      };
+      if (channelMap[channel]) channel = channelMap[channel];
+
+      return {
+        asset_id: getStr(['asset_id', 'Asset ID', 'ID'], `AST-${idx}`),
+        asset_title: getStr(['asset_title', 'Asset Title', 'Title'], `Content Asset ${idx}`),
+        content_type,
+        content_category,
+        primary_channel: channel,
+        product_bu: getStr(['product_bu', 'Business Unit', 'BU'], 'IT & App Development'),
+        target_persona: getStr(['target_persona', 'Persona', 'Target Persona'], 'CIO / CTO / App Dev'),
+        funnel_stage: getStr(['funnel_stage', 'Funnel Stage', 'Stage'], 'TOFU'),
+        interactions,
+        unique_leads,
+        net_new_interactions: net_new,
+        mqls,
+        stage_1_optys: stage_1,
+        stage_2_optys: stage_2,
+        gsd_created_pipeline_usd: gsd_pipe,
+        pipeline_created_usd: gsd_pipe,
+        mktg_influenced_pipeline_usd: mta_pipe,
+        avg_deal_size_usd: getNum(['avg_deal_size_usd', 'Avg Deal Size'], 175000),
+        avg_sales_cycle_days: Math.round(getNum(['avg_sales_cycle_days', 'Avg Sales Cycle Days', 'Sales Cycle'], 68)),
+        quarter: getStr(['quarter', 'Quarter'], '26-Q3')
+      };
+    }
+
+    function aggregateByField(items, keyField, outKey) {
+      const map = {};
+      items.forEach(i => {
+        const k = i[keyField];
+        if (!map[k]) {
+          map[k] = { count: 0, interactions: 0, unique_leads: 0, net_new_interactions: 0, mqls: 0, stage1: 0, stage2: 0, gsd: 0, mta: 0, cycles: [] };
+        }
+        const g = map[k];
+        g.count += 1;
+        g.interactions += i.interactions;
+        g.unique_leads += i.unique_leads;
+        g.net_new_interactions += i.net_new_interactions;
+        g.mqls += i.mqls;
+        g.stage1 += i.stage_1_optys;
+        g.stage2 += i.stage_2_optys;
+        g.gsd += i.gsd_created_pipeline_usd;
+        g.mta += i.mktg_influenced_pipeline_usd;
+        g.cycles.push(i.avg_sales_cycle_days);
+      });
+
+      const res = Object.keys(map).map(k => {
+        const g = map[k];
+        const avgCycle = g.cycles.reduce((a, b) => a + b, 0) / (g.cycles.length || 1);
+        return {
+          [outKey]: k,
+          count: g.count,
+          interactions: g.interactions,
+          unique_leads: g.unique_leads,
+          net_new_interactions: g.net_new_interactions,
+          net_new_pct: g.interactions > 0 ? Number((g.net_new_interactions / g.interactions * 100).toFixed(1)) : 0,
+          mqls: g.mqls,
+          stage1_optys: g.stage1,
+          stage2_optys: g.stage2,
+          gsd_created_pipeline: g.gsd,
+          influenced_pipeline: g.mta,
+          pipe_per_interaction: g.interactions > 0 ? Number((g.mta / g.interactions).toFixed(2)) : 0,
+          gsd_per_interaction: g.interactions > 0 ? Number((g.gsd / g.interactions).toFixed(2)) : 0,
+          stage1_to_stage2_pct: g.stage1 > 0 ? Number((g.stage2 / g.stage1 * 100).toFixed(1)) : 0,
+          avg_sales_cycle_days: Math.round(avgCycle)
+        };
+      });
+      res.sort((a, b) => b.influenced_pipeline - a.influenced_pipeline);
+      return res;
+    }
+
+    function computeClientAnalysis(rawItems) {
+      const items = rawItems.map((r, idx) => normalizeRow(r, idx + 1));
+      const total_interactions = items.reduce((s, i) => s + i.interactions, 0);
+      const total_leads = items.reduce((s, i) => s + i.unique_leads, 0);
+      const total_net_new = items.reduce((s, i) => s + i.net_new_interactions, 0);
+      const total_mqls = items.reduce((s, i) => s + i.mqls, 0);
+      const total_stage1 = items.reduce((s, i) => s + i.stage_1_optys, 0);
+      const total_stage2 = items.reduce((s, i) => s + i.stage_2_optys, 0);
+      const total_gsd = items.reduce((s, i) => s + i.gsd_created_pipeline_usd, 0);
+      const total_mta = items.reduce((s, i) => s + i.mktg_influenced_pipeline_usd, 0);
+
+      const type_summary = aggregateByField(items, 'content_type', 'content_type');
+      const category_summary = aggregateByField(items, 'content_category', 'content_category');
+      const channel_summary = aggregateByField(items, 'primary_channel', 'channel');
+      const persona_summary = aggregateByField(items, 'target_persona', 'persona');
+
+      const sleepers = items
+        .filter(i => i.interactions <= 1500 && (i.mktg_influenced_pipeline_usd / Math.max(1, i.interactions)) >= 5500)
+        .sort((a, b) => (b.mktg_influenced_pipeline_usd / b.interactions) - (a.mktg_influenced_pipeline_usd / a.interactions));
+
+      const underperformers = items.filter(i => i.interactions >= 3500 && i.mktg_influenced_pipeline_usd < 1500000);
+
+      return {
+        kpis: {
+          total_influenced_pipeline: total_mta,
+          total_gsd_created_pipeline: total_gsd,
+          total_created_pipeline: total_gsd,
+          total_interactions,
+          total_leads,
+          total_net_new_interactions: total_net_new,
+          net_new_rate_pct: total_interactions > 0 ? Number((total_net_new / total_interactions * 100).toFixed(1)) : 0,
+          total_mqls,
+          total_stage1_optys: total_stage1,
+          total_stage2_optys: total_stage2,
+          stage1_to_stage2_pct: total_stage1 > 0 ? Number((total_stage2 / total_stage1 * 100).toFixed(1)) : 0,
+          overall_pipe_per_interaction: total_interactions > 0 ? Number((total_mta / total_interactions).toFixed(2)) : 0,
+          overall_gsd_per_interaction: total_interactions > 0 ? Number((total_gsd / total_interactions).toFixed(2)) : 0,
+          top_format: type_summary[0] ? type_summary[0].content_type : 'Whitepaper',
+          top_channel: channel_summary[0] ? channel_summary[0].channel : 'Content Syndication'
+        },
+        type_summary,
+        category_summary,
+        channel_summary,
+        persona_summary,
+        sleeper_hits: sleepers,
+        underperformers,
+        all_assets: items
+      };
+    }
+
+    function generateClientRoadmap(analysis) {
+      const basePipe = 137470000;
+      const actualPipe = (analysis && analysis.kpis && analysis.kpis.total_influenced_pipeline) ? analysis.kpis.total_influenced_pipeline : basePipe;
+      const scale = actualPipe > 0 ? (actualPipe / basePipe) : 1;
+      const scaled = (v) => Math.round((v * scale) / 100000) * 100000;
+
+      return [
+        { quarter: "Q1", half: "H1", month: "Month 1 (Jan)", title: "The Autonomous SecOps Playbook: Reducing Mean Time to Remediation by 60%", format: "Whitepaper", content_category: "Ebook/Whitepaper", persona: "CISO & team", bu: "Security & Risk", funnel_stage: "TOFU / MOFU", primary_channel: "Content Syndication", target_gsd_pipeline_usd: scaled(3600000), target_pipeline_usd: scaled(6500000), data_defense: "Ebook/Whitepaper via Content Syndication ranks #1 in MARZ Markov pre-pipeline creation ($21.2M GSD Created, $39.9M MTA Influenced, 61.0% Net New touch rate)." },
+        { quarter: "Q1", half: "H1", month: "Month 1 (Jan)", title: "Interactive Platform Tour: Now Assist AI for Enterprise IT Service Management", format: "Demo", content_category: "Demo", persona: "CIO / CTO / App Dev", bu: "IT & App Development", funnel_stage: "BOFU", primary_channel: "Paid Search", target_gsd_pipeline_usd: scaled(5200000), target_pipeline_usd: scaled(8500000), data_defense: "Interactive Demos via Paid Search deliver our fastest deal velocity (48 days) and 84.8% Stage 1-to-Stage 2+ opportunity conversion ($8.2M GSD Created Pipeline)." },
+        { quarter: "Q1", half: "H1", month: "Month 2 (Feb)", title: "The Strategic CIO's Architecture Blueprint for Cross-Enterprise GenAI", format: "Ebook", content_category: "Ebook/Whitepaper", persona: "CIO / CTO / App Dev", bu: "IT & App Development", funnel_stage: "TOFU", primary_channel: "Paid Social", target_gsd_pipeline_usd: scaled(4100000), target_pipeline_usd: scaled(7200000), data_defense: "Paid Social Ebooks drove $12.4M MTA Influenced Pipeline and 2,180 Net New Interactions (+136% attribution lift under the multi-stage MARZ model)." },
+        { quarter: "Q1", half: "H1", month: "Month 2 (Feb)", title: "Enterprise App Modernization: Governance & TCO Solution Brief", format: "Solution Brief", content_category: "Solution Brief", persona: "CIO / CTO / App Dev", bu: "IT & App Development", funnel_stage: "MOFU", primary_channel: "SEO/Direct", target_gsd_pipeline_usd: scaled(2900000), target_pipeline_usd: scaled(5000000), data_defense: "Solution Briefs via SEO/Direct generate $7,589 MTA pipeline per interaction and convert 84.5% of Stage 1 opportunities to Stage 2+ in 62 days." },
+        { quarter: "Q1", half: "H1", month: "Month 3 (Mar)", title: "Live Architecture Workshop: Eliminating Alert Fatigue with Connected SecOps", format: "Webinar", content_category: "Webinar", persona: "CISO & team", bu: "Security & Risk", funnel_stage: "MOFU", primary_channel: "Direct Events", target_gsd_pipeline_usd: scaled(3000000), target_pipeline_usd: scaled(4800000), data_defense: "Direct Event Webinars achieve a 64.6% Lead-to-MQL conversion rate and 82.9% Stage 1-to-2 progression, accelerating stalled security accounts." },
+        { quarter: "Q1", half: "H1", month: "Month 3 (Mar)", title: "Global Bank SecOps Customer Story: Cutting Incident Response from Hours to Seconds", format: "Case Study", content_category: "Case Study", persona: "CISO & team", bu: "Security & Risk", funnel_stage: "BOFU", primary_channel: "Email", target_gsd_pipeline_usd: scaled(1800000), target_pipeline_usd: scaled(4200000), data_defense: "Case Studies distributed via Email nurture boast our highest efficiency ($11,391 MTA pipeline/touch), shortest sales cycle (42 days), and $210k+ deal size." },
+        { quarter: "Q2", half: "H1", month: "Month 4 (Apr)", title: "Connected Operations: Why Front-Office Chatbots Fail Without Back-Office Workflows", format: "Whitepaper", content_category: "Ebook/Whitepaper", persona: "COO/CCO", bu: "CRM", funnel_stage: "TOFU", primary_channel: "Content Syndication", target_gsd_pipeline_usd: scaled(3800000), target_pipeline_usd: scaled(6800000), data_defense: "Replicates top-performing Content Syndication Whitepaper playbook for CRM, where historical assets produced 58.7% Net New Interactions and $7.8M MTA pipeline." },
+        { quarter: "Q2", half: "H1", month: "Month 4 (Apr)", title: "HR Service Delivery Technical Integration & Automation Spec Sheet", format: "Data Sheet", content_category: "Data Sheet", persona: "CHRO/CFO/CPO", bu: "HR & Finance/Supply Chain", funnel_stage: "MOFU", primary_channel: "SEO/Direct", target_gsd_pipeline_usd: scaled(2800000), target_pipeline_usd: scaled(4500000), data_defense: "Technical Data Sheets via SEO/Direct deliver $6,726 MTA pipeline per interaction and 62-day deal cycles for technical evaluators." },
+        { quarter: "Q2", half: "H1", month: "Month 5 (May)", title: "CFO & Procurement Guide: Source-to-Pay Automation & Vendor Risk Management", format: "Ebook", content_category: "Ebook/Whitepaper", persona: "CHRO/CFO/CPO", bu: "HR & Finance/Supply Chain", funnel_stage: "TOFU", primary_channel: "Paid Social", target_gsd_pipeline_usd: scaled(3100000), target_pipeline_usd: scaled(5500000), data_defense: "Finance/Procurement Paid Social Ebooks generated 1,180 Net New Interactions and $6.8M MTA pipeline in historical benchmarks." },
+        { quarter: "Q2", half: "H1", month: "Month 5 (May)", title: "Interactive Teardown: Front-to-Back Connected Customer Workflows", format: "Demo", content_category: "Demo", persona: "COO/CCO", bu: "CRM", funnel_stage: "BOFU", primary_channel: "Paid Search", target_gsd_pipeline_usd: scaled(3900000), target_pipeline_usd: scaled(5900000), data_defense: "Expands our #1 BOFU conversion format (Demo + Paid Search) into CRM to accelerate Stage 1 opportunities into Stage 2+." },
+        { quarter: "Q2", half: "H1", month: "Month 6 (Jun)", title: "Fortune 50 Enterprise Transformation: Unifying HR, IT, and Procurement", format: "Case Study", content_category: "Case Study", persona: "CHRO/CFO/CPO", bu: "HR & Finance/Supply Chain", funnel_stage: "BOFU", primary_channel: "Email", target_gsd_pipeline_usd: scaled(2100000), target_pipeline_usd: scaled(5000000), data_defense: "Multi-product Case Studies via Email sales plays shorten enterprise deal cycles to 39–44 days and lift average deal size above $210k." },
+        { quarter: "Q2", half: "H1", month: "Month 6 (Jun)", title: "Executive Roundtable: Scaling AI Agents Without Compromising Enterprise Governance", format: "Webinar", content_category: "Webinar", persona: "CIO / CTO / App Dev", bu: "IT & App Development", funnel_stage: "MOFU", primary_channel: "Direct Events", target_gsd_pipeline_usd: scaled(3700000), target_pipeline_usd: scaled(6200000), data_defense: "Pre-close Q2 demand accelerator; Direct Events yield $7,143 MTA pipeline per interaction and close within 56 days." },
+        { quarter: "Q3", half: "H2", month: "Q3 Flagship (Jul–Sep)", title: "Gartner/Forrester Comparative Evaluation: Autonomous Enterprise Service Management", format: "Analyst Report", content_category: "Analyst Report", persona: "CIO / CTO / App Dev", bu: "IT & App Development", funnel_stage: "TOFU / MOFU", primary_channel: "Paid Search", target_gsd_pipeline_usd: scaled(4800000), target_pipeline_usd: scaled(9200000), data_defense: "Analyst Reports capture high-intent third-party validation seekers across Paid Search and Paid Social ($11.2M historical MTA pipeline, 2,370 Net New Interactions)." },
+        { quarter: "Q3", half: "H2", month: "Q3 Flagship (Jul–Sep)", title: "Zero-Downtime Resilience: Continuous Threat Exposure & Vulnerability Workflows", format: "Whitepaper", content_category: "Ebook/Whitepaper", persona: "CISO & team", bu: "Security & Risk", funnel_stage: "TOFU", primary_channel: "Content Syndication", target_gsd_pipeline_usd: scaled(4500000), target_pipeline_usd: scaled(8400000), data_defense: "Scales our highest-converting H1 syndication motion into H2 pipeline generation for Q4 enterprise security renewals." },
+        { quarter: "Q4", half: "H2", month: "Q4 Flagship (Oct–Dec)", title: "Interactive ROI & TCO Sandbox: Consolidating Point Tools onto One AI Platform", format: "Demo", content_category: "Demo", persona: "CIO / CTO / App Dev", bu: "IT & App Development", funnel_stage: "BOFU", primary_channel: "Paid Search", target_gsd_pipeline_usd: scaled(6400000), target_pipeline_usd: scaled(10500000), data_defense: "Designed for Q4 year-end budget flush; Interactive Demos convert 84.8% of Stage 1 opportunities in 48 days so deals close inside the fiscal year." },
+        { quarter: "Q4", half: "H2", month: "Q4 Flagship (Oct–Dec)", title: "Global Enterprise Benchmark: Cross-Functional AI Value Realization Compendium", format: "Case Study", content_category: "Case Study", persona: "CHRO/CFO/CPO", bu: "HR & Finance/Supply Chain", funnel_stage: "BOFU", primary_channel: "Email", target_gsd_pipeline_usd: scaled(3200000), target_pipeline_usd: scaled(7400000), data_defense: "Equips field sales with CFO-ready ROI proof points during Q4 procurement reviews (42-day average close velocity)." }
+      ];
+    }
+
+    async function init() {
+      try {
+        const res = await fetch('/api/data');
+        if (res.ok) {
+          const data = await res.json();
+          appData = data.analysis;
+          roadmapData = data.roadmap;
+        } else {
+          appData = computeClientAnalysis(DEFAULT_ITEMS);
+          roadmapData = generateClientRoadmap(appData);
+        }
+      } catch (e) {
+        appData = computeClientAnalysis(DEFAULT_ITEMS);
+        roadmapData = generateClientRoadmap(appData);
+      }
+      renderAll();
+    }
+
+    function renderAll() {
+      renderKPIs();
+      renderPerformanceTab();
+      renderRoadmap();
+      renderAssetTable();
+      updateSimulator();
+    }
+
+    function renderKPIs() {
+      const k = appData.kpis;
+      document.getElementById('kpi-influenced-pipe').innerText = `$${(k.total_influenced_pipeline / 1000000).toFixed(1)}M`;
+      document.getElementById('kpi-created-pipe').innerText = `$${(k.total_gsd_created_pipeline / 1000000).toFixed(1)}M`;
+      document.getElementById('kpi-pipe-efficiency').innerText = `$${Math.round(k.overall_pipe_per_interaction).toLocaleString()}`;
+      document.getElementById('kpi-gsd-efficiency').innerText = `$${Math.round(k.overall_gsd_per_interaction).toLocaleString()}`;
+      document.getElementById('kpi-interactions').innerText = k.total_interactions.toLocaleString();
+      document.getElementById('kpi-netnew-count').innerText = k.total_net_new_interactions.toLocaleString();
+      document.getElementById('kpi-netnew-pct').innerText = `${k.net_new_rate_pct}% Net New`;
+      document.getElementById('kpi-leads').innerText = k.total_leads.toLocaleString();
+      document.getElementById('kpi-mqls').innerText = `${k.total_mqls.toLocaleString()} MQLs`;
+      const mqlRate = k.total_leads > 0 ? ((k.total_mqls / k.total_leads) * 100).toFixed(1) : 0;
+      document.getElementById('kpi-mql-rate').innerText = `${mqlRate}% MQL Rate`;
+      document.getElementById('kpi-stage1-optys').innerText = k.total_stage1_optys.toLocaleString();
+      document.getElementById('kpi-stage2-optys').innerText = `${k.total_stage2_optys.toLocaleString()} Stage 2+`;
+      document.getElementById('kpi-stage2-rate').innerText = `${k.stage1_to_stage2_pct}% Conv`;
+    }
+
+    function setFormatView(mode) {
+      currentFormatView = mode;
+      const bGran = document.getElementById('btn-view-granular');
+      const bCat = document.getElementById('btn-view-category');
+      if (mode === 'granular') {
+        bGran.className = 'px-3 py-1 rounded-md bg-white text-slate-900 font-semibold shadow-2xs cursor-pointer';
+        bCat.className = 'px-3 py-1 rounded-md text-slate-600 hover:text-slate-900 font-medium cursor-pointer';
+      } else {
+        bCat.className = 'px-3 py-1 rounded-md bg-white text-slate-900 font-semibold shadow-2xs cursor-pointer';
+        bGran.className = 'px-3 py-1 rounded-md text-slate-600 hover:text-slate-900 font-medium cursor-pointer';
+      }
+      renderFormatMatrix();
+    }
+
+    function renderFormatMatrix() {
+      const tbody = document.getElementById('format-table-body');
+      const rows = currentFormatView === 'granular' ? appData.type_summary : (appData.category_summary || appData.type_summary);
+      tbody.innerHTML = rows.map(t => {
+        const name = t.content_type || t.content_category;
+        const isVanity = t.pipe_per_interaction < 500;
+        const badgeClass = isVanity ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-blue-50 text-blue-700 border-blue-200';
+        return `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="py-2.5 px-3 font-semibold text-slate-900">
+              ${name} <span class="text-slate-400 font-normal">(${t.count})</span>
+            </td>
+            <td class="py-2.5 px-3 text-right text-slate-600">${t.interactions.toLocaleString()}</td>
+            <td class="py-2.5 px-3 text-right text-slate-600">${t.unique_leads.toLocaleString()}</td>
+            <td class="py-2.5 px-3 text-right text-indigo-700 font-medium">${t.net_new_interactions.toLocaleString()} <span class="text-slate-400 font-normal">(${t.net_new_pct}%)</span></td>
+            <td class="py-2.5 px-3 text-right text-slate-600">${t.mqls.toLocaleString()}</td>
+            <td class="py-2.5 px-3 text-right text-slate-600">${t.stage1_optys}</td>
+            <td class="py-2.5 px-3 text-right font-semibold text-slate-800">${t.stage2_optys}</td>
+            <td class="py-2.5 px-3 text-right font-semibold text-slate-800">$${(t.gsd_created_pipeline / 1000000).toFixed(2)}M</td>
+            <td class="py-2.5 px-3 text-right font-bold text-slate-900">$${(t.influenced_pipeline / 1000000).toFixed(2)}M</td>
+            <td class="py-2.5 px-3 text-right">
+              <span class="px-2 py-0.5 rounded border text-xs font-semibold ${badgeClass}">$${Math.round(t.pipe_per_interaction).toLocaleString()}</span>
+            </td>
+            <td class="py-2.5 px-3 text-right text-slate-600">${t.avg_sales_cycle_days}d</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderPerformanceTab() {
+      // Sleeper hits
+      const sleeperList = document.getElementById('sleeper-list');
+      sleeperList.innerHTML = appData.sleeper_hits.slice(0, 5).map(s => `
+        <li class="bg-white/90 p-2.5 rounded-lg border border-emerald-200 flex justify-between items-center gap-2">
+          <div>
+            <span class="font-semibold text-slate-900 block">${s.asset_title}</span>
+            <div class="flex flex-wrap gap-2 mt-0.5 text-xs text-slate-600">
+              <span class="bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-medium">${s.content_type} • ${s.primary_channel}</span>
+              <span>${s.interactions.toLocaleString()} touches (${s.net_new_interactions} net new)</span>
+              <span>•</span>
+              <span class="text-emerald-700 font-semibold">$${(s.gsd_created_pipeline_usd / 1000000).toFixed(1)}M GSD / $${(s.mktg_influenced_pipeline_usd / 1000000).toFixed(1)}M MTA</span>
+            </div>
+          </div>
+          <div class="text-right shrink-0">
+            <span class="text-xs font-bold text-emerald-700">$${Math.round(s.mktg_influenced_pipeline_usd / s.interactions).toLocaleString()}</span>
+            <p class="text-xs text-slate-500">MTA / touch</p>
+          </div>
+        </li>
+      `).join('');
+
+      // Underperformers
+      const underList = document.getElementById('underperformer-list');
+      underList.innerHTML = appData.underperformers.map(u => `
+        <li class="bg-white/90 p-2.5 rounded-lg border border-rose-200 flex justify-between items-center gap-2">
+          <div>
+            <span class="font-semibold text-slate-900 block">${u.asset_title}</span>
+            <div class="flex flex-wrap gap-2 mt-0.5 text-xs text-slate-600">
+              <span class="bg-rose-100 text-rose-800 px-1.5 py-0.5 rounded font-medium">${u.content_type} • ${u.primary_channel}</span>
+              <span>${u.interactions.toLocaleString()} clicks (${u.net_new_interactions.toLocaleString()} net new)</span>
+              <span>•</span>
+              <span class="text-rose-700 font-semibold">Only ${u.stage_2_optys} Stage 2+ Optys ($${(u.mktg_influenced_pipeline_usd / 1000000).toFixed(2)}M MTA)</span>
+            </div>
+          </div>
+          <div class="text-right shrink-0">
+            <span class="text-xs font-bold text-rose-700">${u.avg_sales_cycle_days} days</span>
+            <p class="text-xs text-slate-500">sales cycle</p>
+          </div>
+        </li>
+      `).join('');
+
+      renderFormatMatrix();
+
+      // Channels Table
+      const channelBody = document.getElementById('channel-table-body');
+      channelBody.innerHTML = (appData.channel_summary || []).map(c => `
+        <tr class="hover:bg-slate-50 transition">
+          <td class="py-2.5 px-3 font-semibold text-slate-900">${c.channel} <span class="text-slate-400 font-normal">(${c.count})</span></td>
+          <td class="py-2.5 px-3 text-right text-slate-600">${c.interactions.toLocaleString()}</td>
+          <td class="py-2.5 px-3 text-right text-indigo-700 font-medium">${c.net_new_interactions.toLocaleString()} <span class="text-slate-400 font-normal">(${c.net_new_pct}%)</span></td>
+          <td class="py-2.5 px-3 text-right text-slate-600">${c.unique_leads.toLocaleString()}</td>
+          <td class="py-2.5 px-3 text-right text-slate-600">${c.mqls.toLocaleString()}</td>
+          <td class="py-2.5 px-3 text-right text-slate-700">${c.stage1_optys} &rarr; <strong class="text-slate-900">${c.stage2_optys}</strong> <span class="text-emerald-600">(${c.stage1_to_stage2_pct}%)</span></td>
+          <td class="py-2.5 px-3 text-right font-semibold text-slate-800">$${(c.gsd_created_pipeline / 1000000).toFixed(2)}M</td>
+          <td class="py-2.5 px-3 text-right font-bold text-slate-900">$${(c.influenced_pipeline / 1000000).toFixed(2)}M</td>
+        </tr>
+      `).join('');
+
+      // Persona Bars
+      const maxPersonaPipe = Math.max(...appData.persona_summary.map(p => p.influenced_pipeline), 1);
+      const colors = ['bg-blue-600', 'bg-indigo-600', 'bg-teal-600', 'bg-emerald-600'];
+      document.getElementById('persona-bars-container').innerHTML = appData.persona_summary.map((p, idx) => {
+        const pct = Math.round((p.influenced_pipeline / maxPersonaPipe) * 100);
+        const gsdM = (p.gsd_created_pipeline / 1000000).toFixed(1);
+        const mtaM = (p.influenced_pipeline / 1000000).toFixed(1);
+        return `
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="font-semibold text-slate-800">${p.persona}</span>
+              <span class="text-slate-600"><strong class="text-slate-900">$${mtaM}M MTA</strong> • $${gsdM}M GSD (${p.stage2_optys} Optys)</span>
+            </div>
+            <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+              <div class="${colors[idx % colors.length]} h-full rounded-full" style="width: ${pct}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterRoadmap(qFilter, btnEl) {
+      currentRoadmapQuarterFilter = qFilter;
+      if (btnEl) {
+        document.querySelectorAll('.roadmap-filter-btn').forEach(b => {
+          b.className = 'roadmap-filter-btn px-3 py-1.5 bg-white border border-slate-300 text-slate-700 text-xs font-semibold rounded-lg hover:bg-slate-50 cursor-pointer';
+        });
+        btnEl.className = 'roadmap-filter-btn px-3 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-lg cursor-pointer';
+      }
+      renderRoadmap();
+    }
+
+    function renderRoadmap() {
+      const container = document.getElementById('roadmap-cards-container');
+      const personaFilter = document.getElementById('roadmap-persona-filter').value;
+
+      const filtered = roadmapData.filter(item => {
+        const qMatch = currentRoadmapQuarterFilter === 'all'
+          ? true
+          : (currentRoadmapQuarterFilter === 'H1' || currentRoadmapQuarterFilter === 'H2')
+            ? item.half === currentRoadmapQuarterFilter
+            : item.quarter === currentRoadmapQuarterFilter;
+        const pMatch = personaFilter === 'all' ? true : item.persona === personaFilter;
+        return qMatch && pMatch;
+      });
+
+      const totalGsd = filtered.reduce((s, r) => s + (r.target_gsd_pipeline_usd || 0), 0);
+      const totalMta = filtered.reduce((s, r) => s + (r.target_pipeline_usd || 0), 0);
+      document.getElementById('roadmap-total-gsd').innerText = `$${(totalGsd / 1000000).toFixed(1)}M`;
+      document.getElementById('roadmap-total-mta').innerText = `$${(totalMta / 1000000).toFixed(1)}M`;
+      document.getElementById('roadmap-count-badge').innerText = `${roadmapData.length} Plays`;
+
+      container.innerHTML = filtered.map(item => `
+        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-xs hover:border-blue-400 transition flex flex-col justify-between">
+          <div>
+            <div class="flex flex-wrap justify-between items-start gap-2 mb-2.5">
+              <span class="text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded border border-blue-200">
+                ${item.quarter} • ${item.month}
+              </span>
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                  GSD: $${((item.target_gsd_pipeline_usd || item.target_pipeline_usd * 0.55) / 1000000).toFixed(1)}M
+                </span>
+                <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                  MTA: $${(item.target_pipeline_usd / 1000000).toFixed(1)}M
+                </span>
+              </div>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm leading-snug mb-2.5">${item.title}</h4>
+            <div class="flex flex-wrap gap-1.5 mb-3 text-xs">
+              <span class="bg-blue-50 text-blue-800 px-2 py-0.5 rounded font-semibold">${item.format}</span>
+              <span class="bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded font-semibold">${item.primary_channel}</span>
+              <span class="bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded font-medium">${item.persona}</span>
+              <span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded">${item.bu}</span>
+              <span class="bg-purple-50 text-purple-700 px-2 py-0.5 rounded font-medium">${item.funnel_stage}</span>
+            </div>
+          </div>
+          <div class="mt-2 pt-3 border-t border-slate-100 bg-slate-50 p-3 rounded-lg">
+            <p class="text-xs font-semibold text-slate-800 mb-0.5">MARZ Historical Data Defense:</p>
+            <p class="text-xs text-slate-600 leading-relaxed">${item.data_defense}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function handleAddInitiative(e) {
+      e.preventDefault();
+      const title = document.getElementById('new-init-title').value.trim();
+      const [quarter, half, month] = document.getElementById('new-init-quarter').value.split('|');
+      const format = document.getElementById('new-init-format').value;
+      const primary_channel = document.getElementById('new-init-channel').value;
+      const [persona, bu] = document.getElementById('new-init-persona').value.split('|');
+      const gsdM = parseFloat(document.getElementById('new-init-gsd').value) || 3.0;
+      const mtaM = parseFloat(document.getElementById('new-init-mta').value) || 5.5;
+      const data_defense = document.getElementById('new-init-defense').value.trim();
+
+      roadmapData.unshift({
+        quarter,
+        half,
+        month,
+        title,
+        format,
+        content_category: (format === 'Whitepaper' || format === 'Ebook') ? 'Ebook/Whitepaper' : format,
+        primary_channel,
+        persona,
+        bu,
+        funnel_stage: format === 'Demo' || format === 'Case Study' ? 'BOFU' : 'TOFU / MOFU',
+        target_gsd_pipeline_usd: gsdM * 1000000,
+        target_pipeline_usd: mtaM * 1000000,
+        data_defense
+      });
+
+      document.getElementById('add-initiative-modal').classList.add('hidden');
+      document.getElementById('new-init-title').value = '';
+      filterRoadmap('all', null);
+    }
+
+    function updateSimulator() {
+      const vVanity = parseInt(document.getElementById('sim-vanity').value, 10);
+      const vDemo = parseInt(document.getElementById('sim-demo').value, 10);
+      const vWp = parseInt(document.getElementById('sim-wp').value, 10);
+      const vEbook = parseInt(document.getElementById('sim-ebook').value, 10);
+
+      document.getElementById('sim-val-vanity').innerText = (vVanity >= 0 ? `+${vVanity}%` : `${vVanity}%`);
+      document.getElementById('sim-val-demo').innerText = (vDemo >= 0 ? `+${vDemo}%` : `${vDemo}%`);
+      document.getElementById('sim-val-wp').innerText = (vWp >= 0 ? `+${vWp}%` : `${vWp}%`);
+      document.getElementById('sim-val-ebook').innerText = (vEbook >= 0 ? `+${vEbook}%` : `${vEbook}%`);
+
+      const baseMta = appData.kpis.total_influenced_pipeline;
+      const baseGsd = appData.kpis.total_gsd_created_pipeline;
+      const baseDeals = appData.kpis.total_stage2_optys;
+
+      // Historical weights
+      const deltaMta = (1470000 * (vVanity / 100)) + (11800000 * (vDemo / 100)) + (39900000 * (vWp / 100)) + (34600000 * (vEbook / 100));
+      const deltaGsd = (730000 * (vVanity / 100)) + (8200000 * (vDemo / 100)) + (21250000 * (vWp / 100)) + (19200000 * (vEbook / 100));
+      const deltaDeals = Math.round((6 * (vVanity / 100)) + (78 * (vDemo / 100)) + (188 * (vWp / 100)) + (171 * (vEbook / 100)));
+
+      const newMta = baseMta + deltaMta;
+      const newGsd = baseGsd + deltaGsd;
+      const newDeals = baseDeals + deltaDeals;
+      const mtaPct = baseMta > 0 ? ((deltaMta / baseMta) * 100).toFixed(1) : 0;
+      const gsdPct = baseGsd > 0 ? ((deltaGsd / baseGsd) * 100).toFixed(1) : 0;
+
+      document.getElementById('sim-out-mta').innerText = `$${(newMta / 1000000).toFixed(1)}M`;
+      document.getElementById('sim-out-mta-delta').innerText = `${deltaMta >= 0 ? '+' : ''}$${(deltaMta / 1000000).toFixed(1)}M (${deltaMta >= 0 ? '+' : ''}${mtaPct}%)`;
+
+      document.getElementById('sim-out-gsd').innerText = `$${(newGsd / 1000000).toFixed(1)}M`;
+      document.getElementById('sim-out-gsd-delta').innerText = `${deltaGsd >= 0 ? '+' : ''}$${(deltaGsd / 1000000).toFixed(1)}M (${deltaGsd >= 0 ? '+' : ''}${gsdPct}%)`;
+
+      document.getElementById('sim-out-stage2').innerText = `${newDeals.toLocaleString()} Optys`;
+      document.getElementById('sim-out-stage2-delta').innerText = `${deltaDeals >= 0 ? '+' : ''}${deltaDeals} Deals`;
+
+      const cycleShift = Math.round((vVanity * 0.12) - (vDemo * 0.15));
+      document.getElementById('sim-out-cycle').innerText = `${cycleShift <= 0 ? cycleShift : '+' + cycleShift} days`;
+    }
+
+    function resetSimulator() {
+      document.getElementById('sim-vanity').value = -40;
+      document.getElementById('sim-demo').value = 30;
+      document.getElementById('sim-wp').value = 25;
+      document.getElementById('sim-ebook').value = 15;
+      updateSimulator();
+    }
+
+    function renderAssetTable() {
+      const q = (document.getElementById('asset-search').value || '').toLowerCase();
+      const ch = document.getElementById('asset-channel-filter').value;
+      const tbody = document.getElementById('asset-table-body');
+
+      const filtered = appData.all_assets.filter(a => {
+        const chMatch = ch === 'all' ? true : a.primary_channel === ch;
+        const textMatch = !q ||
+          a.asset_title.toLowerCase().includes(q) ||
+          a.target_persona.toLowerCase().includes(q) ||
+          a.product_bu.toLowerCase().includes(q) ||
+          a.content_type.toLowerCase().includes(q) ||
+          a.primary_channel.toLowerCase().includes(q);
+        return chMatch && textMatch;
+      });
+
+      tbody.innerHTML = filtered.map(a => `
+        <tr class="hover:bg-slate-50 transition">
+          <td class="py-2.5 px-3">
+            <span class="font-semibold text-slate-900 block">${a.asset_title}</span>
+            <span class="text-xs text-slate-500">${a.content_type} (${a.content_category}) • ${a.funnel_stage} • ${a.quarter}</span>
+          </td>
+          <td class="py-2.5 px-3">
+            <span class="bg-slate-100 text-slate-800 px-2 py-0.5 rounded text-xs font-medium">${a.primary_channel}</span>
+          </td>
+          <td class="py-2.5 px-3">
+            <span class="text-slate-800 font-medium block">${a.target_persona}</span>
+            <span class="text-xs text-slate-500">${a.product_bu}</span>
+          </td>
+          <td class="py-2.5 px-3 text-right text-slate-600">${a.interactions.toLocaleString()}</td>
+          <td class="py-2.5 px-3 text-right text-slate-600">${a.unique_leads.toLocaleString()}</td>
+          <td class="py-2.5 px-3 text-right text-indigo-700 font-medium">${a.net_new_interactions.toLocaleString()}</td>
+          <td class="py-2.5 px-3 text-right text-slate-600">${a.mqls.toLocaleString()}</td>
+          <td class="py-2.5 px-3 text-right text-slate-600">${a.stage_1_optys}</td>
+          <td class="py-2.5 px-3 text-right font-semibold text-slate-900">${a.stage_2_optys}</td>
+          <td class="py-2.5 px-3 text-right font-semibold text-slate-800">$${(a.gsd_created_pipeline_usd / 1000000).toFixed(2)}M</td>
+          <td class="py-2.5 px-3 text-right font-bold text-slate-900">$${(a.mktg_influenced_pipeline_usd / 1000000).toFixed(2)}M</td>
+          <td class="py-2.5 px-3 text-right text-slate-600">${a.avg_sales_cycle_days}d</td>
+        </tr>
+      `).join('');
+    }
+
+    function filterAssetTable() {
+      renderAssetTable();
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('tab-active');
+        btn.classList.add('text-slate-500');
+      });
+      document.getElementById(tabId).classList.remove('hidden');
+      const activeBtn = document.getElementById(`tab-btn-${tabId.replace('tab-', '')}`);
+      activeBtn.classList.add('tab-active');
+      activeBtn.classList.remove('text-slate-500');
+    }
+
+    function formatMarkdownReply(md) {
+      return md
+        .replace(/^### (.*$)/gim, '<h4 class="font-bold text-slate-900 text-sm mb-2">$1</h4>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\n/g, '<br>');
+    }
+
+    async function sendQuickPrompt(prompt) {
+      document.getElementById('chat-input').value = prompt;
+      await handleChatSubmit(new Event('submit'));
+    }
+
+    async function handleChatSubmit(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendMessage('user', text);
+      input.value = '';
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: text })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          appendMessage('gemini', data.reply);
+          return;
+        }
+      } catch (err) {
+        // Offline client fallback
+      }
+      const reply = generateClientCopilotReply(text);
+      appendMessage('gemini', reply);
+    }
+
+    function appendMessage(sender, content) {
+      const container = document.getElementById('chat-messages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'flex items-start space-x-3';
+
+      if (sender === 'user') {
+        msgDiv.innerHTML = `
+          <div class="ml-auto flex items-start space-x-3 max-w-xl">
+            <div class="bg-blue-600 text-white rounded-2xl rounded-tr-none p-3.5 text-xs leading-relaxed shadow-xs">
+              ${content}
+            </div>
+            <div class="bg-slate-800 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shrink-0 mt-0.5">B</div>
+          </div>
+        `;
+      } else {
+        msgDiv.innerHTML = `
+          <div class="bg-indigo-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shrink-0 mt-0.5">G</div>
+          <div class="bg-slate-100 rounded-2xl rounded-tl-none p-4 text-xs text-slate-800 max-w-2xl leading-relaxed">
+            ${formatMarkdownReply(content)}
+          </div>
+        `;
+      }
+      container.appendChild(msgDiv);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function generateClientCopilotReply(q) {
+      q = q.toLowerCase();
+      const k = appData.kpis;
+      if (q.includes('channel') || q.includes('syndication') || q.includes('paid')) {
+        const ch = appData.channel_summary.slice(0, 4);
+        return `### Channel Effectiveness Breakdown (ServiceNow MARZ Attribution)\n\nAcross our 6 primary distribution channels, performance splits into **Net-New Demand Capture** vs. **Mid/Late-Stage Velocity**:\n\n` +
+          ch.map((c, idx) => `${idx + 1}. **${c.channel}**: **$${(c.influenced_pipeline / 1000000).toFixed(1)}M MTA Influenced** ($${(c.gsd_created_pipeline / 1000000).toFixed(1)}M GSD Created) | **${c.net_new_interactions.toLocaleString()} Net New Interactions** (${c.net_new_pct}%) | **${c.stage2_optys} Stage 2+ Optys**.`).join('\n') +
+          `\n\n**Strategic Takeaway:** Pair **Content Syndication** and **Paid Social** with Ebooks/Whitepapers for net-new logo acquisition, and pair **Paid Search**, **SEO/Direct**, and **Email** with Interactive Demos, Solution Briefs, and Case Studies to convert Stage 1 opportunities to Stage 2+.`;
+      } else if (q.includes('infographic') || q.includes('cut') || q.includes('vanity') || q.includes('budget')) {
+        return `### Executive Defense: Reallocating Budget Away from Infographics & Generic Videos\n\nBased on our ServiceNow MARZ multi-stage attribution data, **Infographics and top-of-funnel Display Videos drive high vanity clicks without pipeline progression**:\n\n- **High Volume, Low Pipeline Yield:** Infographics & Videos generated **14,600 interactions** and **4,750 Net New Interactions**, but converted into only **6 total Stage 2+ Opportunities** ($0.73M GSD Created Pipeline / $1.47M MTA Influenced Pipeline).\n- **Elongated Deal Cycles:** Opportunities touched by these formats average **135–140 days** to progress—nearly 3x slower than **Interactive Demos (48 days)** and **Case Studies (42 days)**.\n- **Budget Shift Recommendation:** Shift **40% of Infographic/Video spend** into **Content Syndication Whitepapers (+25%)** and **Paid Search Interactive Demos (+30%)**, which generate **$6,244–$8,138 in MTA pipeline per interaction**.`;
+      } else if (q.includes('ciso') || q.includes('security')) {
+        return `### CISO & Security Operations Content Strategy (Next-Year Plan)\n\nSecurity & Risk generated **$30.2M in MTA Influenced Pipeline** ($16.5M GSD Created Pipeline) across **171 Stage 2+ Optys**. CISOs respond to **architectural blueprints** and **MTTR proof points**:\n\n- **TOFU Acquisition (Content Syndication):** *'The Autonomous SecOps Playbook'* (Whitepaper) targets **$6.5M MTA / $3.6M GSD Created Pipeline**, building on our #1 SecOps whitepaper ($8.6M MTA, 890 Net New Interactions).\n- **MOFU Technical Validation (SEO/Direct & Direct Events):** Architecture Spec Sheets ($6.2M historical MTA) and Live Teardown Webinars (82.9% Stage 1→2 conversion).\n- **BOFU Deal Closer (Email):** Global Financial Leader SecOps Case Study—historically our fastest-closing security asset (**42-day cycle**, **$12,895 MTA pipeline per touch**).`;
+      } else if (q.includes('cio') || q.includes('it') || q.includes('app')) {
+        return `### CIO, CTO & App Dev Content Strategy\n\nIT & App Development is our largest growth engine (**$55.5M MTA Influenced Pipeline**, **$30.3M GSD Created Pipeline**, **291 Stage 2+ Optys**):\n\n- **#1 Sourced & Influenced Asset:** *'From Service Desk to Autonomous IT'* (Whitepaper via Content Syndication) generated **$14.1M MTA Influenced Pipeline** and **$7.1M GSD Created Pipeline**.\n- **Paid Social Ebook Lift:** *'The Strategic CIO's Guide to GenAI'* drove **2,180 Net New Interactions** and **$12.4M MTA Pipeline** (+136% attribution lift under MARZ).\n- **BOFU Conversion Engine:** *'Interactive Platform Tour: Now Assist for ITSM'* (Demo via Paid Search) produced **$8.2M GSD Created Pipeline** and **78 Stage 2+ Optys** with a 48-day sales cycle.`;
+      } else if (q.includes('format') || q.includes('best') || q.includes('efficiency') || q.includes('roi')) {
+        const top = appData.type_summary.slice(0, 4);
+        return `### Top Performing Content Types by Pipeline & Efficiency\n\n` +
+          top.map((t, idx) => `${idx + 1}. **${t.content_type}**: **$${(t.influenced_pipeline / 1000000).toFixed(1)}M MTA** ($${(t.gsd_created_pipeline / 1000000).toFixed(1)}M GSD Created) | **$${Math.round(t.pipe_per_interaction).toLocaleString()}/touch** | ${t.net_new_interactions.toLocaleString()} Net New Interactions | **${t.avg_sales_cycle_days}d cycle**.`).join('\n') +
+          `\n\n**Recommendation:** Anchor TOFU around Syndicated Whitepapers & Paid Social Ebooks, and anchor MOFU/BOFU around Demos, Solution Briefs, and Case Studies.`;
+      } else {
+        const totalMta = (roadmapData.reduce((s, r) => s + r.target_pipeline_usd, 0) / 1000000).toFixed(1);
+        const totalGsd = (roadmapData.reduce((s, r) => s + (r.target_gsd_pipeline_usd || 0), 0) / 1000000).toFixed(1);
+        return `### Executive Summary: Next-Year Content Plan & 2-Quarter Roadmap\n\nAcross **${k.total_interactions.toLocaleString()} interactions** (**${k.total_net_new_interactions.toLocaleString()} Net New**), our evaluated assets generated **$${(k.total_gsd_created_pipeline / 1000000).toFixed(1)}M GSD Created Pipeline** and **$${(k.total_influenced_pipeline / 1000000).toFixed(1)}M MTA Influenced Pipeline** across **${k.total_stage2_optys} Stage 2+ Optys**.\n\n- **Next-Year Plan (${roadmapData.length} Plays):** Targets **$${totalMta}M MTA Influenced Pipeline** (**$${totalGsd}M GSD Created Pipeline**).\n- **2-Quarter H1 Deep Dive (Q1–Q2):** 12 monthly plays ($70.1M MTA target) focused on Autonomous IT, Connected SecOps, and Unified Front-to-Back Workflows.\n- **H2 Annual Expansion (Q3–Q4):** 4 flagship plays ($35.5M MTA target) including Gartner/Forrester Analyst Reports and an Interactive Q4 ROI Sandbox.`;
+      }
+    }
+
+    function buildClientMemo() {
+      const k = appData.kpis;
+      const channels = appData.channel_summary || [];
+      const types = appData.type_summary || [];
+      let memo = `# EXECUTIVE STRATEGY MEMO: NEXT-YEAR CONTENT PLAN & 2-QUARTER ROADMAP\n`;
+      memo += `**Prepared for:** Marketing Leadership\n`;
+      memo += `**Prepared by:** Brianna Blacet | Content & Demand Strategy\n`;
+      memo += `**Dataset:** ServiceNow Marketing Analytics & Results Zone (MARZ) Multi-Stage Attribution (MTA)\n\n---\n\n`;
+      memo += `## 1. EXECUTIVE SUMMARY & KEY FINDINGS\n\n`;
+      memo += `Across evaluated content assets, marketing touchpoints generated **$${(k.total_gsd_created_pipeline / 1000000).toFixed(1)}M in GSD Created Pipeline** and **$${(k.total_influenced_pipeline / 1000000).toFixed(1)}M in Marketing Influenced Pipeline (MTA)** across **${k.total_stage2_optys} Stage 2+ Opportunities**, with **${k.total_net_new_interactions.toLocaleString()} Net New Interactions** (${k.net_new_rate_pct}% net-new rate).\n\n`;
+      memo += `## 2. CHANNEL EFFECTIVENESS MATRIX\n\n`;
+      memo += `| Channel | # Interactions | # Net New | # Unique Leads | # MQLs | Stage 1 | Stage 2+ | $ GSD Created | $ MTA Influenced |\n`;
+      memo += `| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n`;
+      channels.forEach(c => {
+        memo += `| **${c.channel}** | ${c.interactions.toLocaleString()} | ${c.net_new_interactions.toLocaleString()} (${c.net_new_pct}%) | ${c.unique_leads.toLocaleString()} | ${c.mqls.toLocaleString()} | ${c.stage1_optys} | ${c.stage2_optys} | $${(c.gsd_created_pipeline / 1000000).toFixed(2)}M | **$${(c.influenced_pipeline / 1000000).toFixed(2)}M** |\n`;
+      });
+      memo += `\n## 3. CONTENT FORMAT PERFORMANCE MATRIX\n\n`;
+      memo += `| Content Type | # Interactions | # Net New | # MQLs | Stage 2+ | $ GSD Created | $ MTA Influenced | MTA / Touch | Cycle |\n`;
+      memo += `| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n`;
+      types.forEach(t => {
+        memo += `| **${t.content_type}** | ${t.interactions.toLocaleString()} | ${t.net_new_interactions.toLocaleString()} | ${t.mqls.toLocaleString()} | ${t.stage2_optys} | $${(t.gsd_created_pipeline / 1000000).toFixed(2)}M | **$${(t.influenced_pipeline / 1000000).toFixed(2)}M** | $${Math.round(t.pipe_per_interaction).toLocaleString()} | ${t.avg_sales_cycle_days}d |\n`;
+      });
+      memo += `\n## 4. NEXT-YEAR CONTENT PLAN & 2-QUARTER ROADMAP\n`;
+      roadmapData.forEach(r => {
+        memo += `\n### [${r.quarter} • ${r.month}] ${r.title}\n`;
+        memo += `- **Format:** ${r.format} (${r.content_category}) | **Channel:** ${r.primary_channel} | **Persona:** ${r.persona} (${r.bu})\n`;
+        memo += `- **Targets:** $${((r.target_gsd_pipeline_usd || 0) / 1000000).toFixed(1)}M GSD Created | **$${(r.target_pipeline_usd / 1000000).toFixed(1)}M MTA Influenced**\n`;
+        memo += `- **Data Defense:** ${r.data_defense}\n`;
+      });
+      return memo;
+    }
+
+    async function exportExecutiveMemo() {
+      try {
+        const res = await fetch('/api/export');
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById('memo-content').innerText = data.memo;
+          document.getElementById('memo-modal').classList.remove('hidden');
+          return;
+        }
+      } catch (e) {}
+      document.getElementById('memo-content').innerText = buildClientMemo();
+      document.getElementById('memo-modal').classList.remove('hidden');
+    }
+
+    function copyMemoToClipboard(btn) {
+      navigator.clipboard.writeText(document.getElementById('memo-content').innerText);
+      const orig = btn.innerText;
+      btn.innerText = 'Copied!';
+      setTimeout(() => { btn.innerText = orig; }, 1500);
+    }
+
+    function downloadMemoFile() {
+      const text = document.getElementById('memo-content').innerText;
+      const blob = new Blob([text], { type: 'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'ServiceNow_Content_Strategy_Memo.md';
+      a.click();
+    }
+
+    function downloadTemplateCSV() {
+      const headers = 'asset_id,asset_title,content_type,primary_channel,product_bu,target_persona,funnel_stage,interactions,unique_leads,net_new_interactions,mqls,stage_1_optys,stage_2_optys,gsd_created_pipeline_usd,mktg_influenced_pipeline_usd,avg_deal_size_usd,avg_sales_cycle_days,quarter';
+      const rows = DEFAULT_ITEMS.map(i =>
+        `${i.asset_id},"${i.asset_title.replace(/"/g, '""')}",${i.content_type},${i.primary_channel},${i.product_bu},${i.target_persona},${i.funnel_stage},${i.interactions},${i.unique_leads},${i.net_new_interactions},${i.mqls},${i.stage_1_optys},${i.stage_2_optys},${i.gsd_created_pipeline_usd},${i.mktg_influenced_pipeline_usd},${i.avg_deal_size_usd},${i.avg_sales_cycle_days},${i.quarter}`
+      );
+      const csv = [headers, ...rows].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'servicenow_marz_demand_gen_template.csv';
+      a.click();
+    }
+
+    function parseCSVLine(line) {
+      const result = [];
+      let cur = '';
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') {
+          inQuotes = !inQuotes;
+        } else if (ch === ',' && !inQuotes) {
+          result.push(cur.trim());
+          cur = '';
+        } else {
+          cur += ch;
+        }
+      }
+      result.push(cur.trim());
+      return result;
+    }
+
+    async function handleFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = async function(evt) {
+        const text = evt.target.result;
+        try {
+          // Try posting to server first if running
+          try {
+            const res = await fetch('/api/upload', {
+              method: 'POST',
+              headers: { 'Content-Type': 'text/plain' },
+              body: text
+            });
+            if (res.ok) {
+              const data = await res.json();
+              if (data.analysis && data.roadmap) {
+                appData = data.analysis;
+                roadmapData = data.roadmap;
+                document.getElementById('dataset-badge').innerText = `Loaded: ${file.name} (${data.count} assets)`;
+                renderAll();
+                document.getElementById('upload-modal').classList.add('hidden');
+                return;
+              }
+            }
+          } catch (serverErr) {
+            // Fallback to full client-side parsing & recalculation
+          }
+
+          let rawItems = [];
+          if (file.name.endsWith('.json') || text.trim().startsWith('[')) {
+            rawItems = JSON.parse(text);
+          } else {
+            const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+            const headers = parseCSVLine(lines[0]);
+            for (let i = 1; i < lines.length; i++) {
+              const vals = parseCSVLine(lines[i]);
+              const obj = {};
+              headers.forEach((h, idx) => { obj[h] = vals[idx]; });
+              rawItems.push(obj);
+            }
+          }
+
+          if (rawItems.length > 0) {
+            appData = computeClientAnalysis(rawItems);
+            roadmapData = generateClientRoadmap(appData);
+            document.getElementById('dataset-badge').innerText = `Loaded: ${file.name} (${rawItems.length} assets)`;
+            renderAll();
+            document.getElementById('upload-modal').classList.add('hidden');
+          }
+        } catch (err) {
+          alert('Error parsing file: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    async function resetToDefaultData() {
+      try {
+        await fetch('/api/reset', { method: 'POST' });
+      } catch (e) {}
+      appData = computeClientAnalysis(DEFAULT_ITEMS);
+      roadmapData = generateClientRoadmap(appData);
+      document.getElementById('dataset-badge').innerText = 'ServiceNow Pilot Schema';
+      renderAll();
+      document.getElementById('upload-modal').classList.add('hidden');
+    }
+
+    // Global Hover Tooltip Handler for [data-tip] elements
+    (function setupTooltips() {
+      const tipBox = document.getElementById('global-tooltip');
+      if (!tipBox) return;
+
+      document.addEventListener('mouseover', (e) => {
+        const target = e.target.closest('[data-tip]');
+        if (!target) return;
+        tipBox.textContent = target.getAttribute('data-tip');
+        tipBox.classList.remove('hidden');
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (tipBox.classList.contains('hidden')) return;
+        const pad = 14;
+        let x = e.clientX + pad;
+        let y = e.clientY + pad;
+        const rect = tipBox.getBoundingClientRect();
+        if (x + rect.width > window.innerWidth - 12) {
+          x = Math.max(12, e.clientX - rect.width - pad);
+        }
+        if (y + rect.height > window.innerHeight - 12) {
+          y = Math.max(12, e.clientY - rect.height - pad);
+        }
+        tipBox.style.left = x + 'px';
+        tipBox.style.top = y + 'px';
+      });
+
+      document.addEventListener('mouseout', (e) => {
+        const target = e.target.closest('[data-tip]');
+        if (!target) return;
+        if (!target.contains(e.relatedTarget)) {
+          tipBox.classList.add('hidden');
+        }
+      });
+    })();
+
+    window.onload = init;
+  </script>
+</body>
+</html>
