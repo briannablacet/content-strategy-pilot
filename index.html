@@ -53,6 +53,9 @@
             <span class="bg-blue-50 text-blue-700 text-xs font-semibold px-2.5 py-0.5 rounded-full border border-blue-200" id="dataset-badge">
               ServiceNow Pilot Schema
             </span>
+            <span data-tip="Zero External Data Transfer: Any CSV or JSON file loaded into this dashboard is parsed 100% inside your local browser RAM using HTML5 FileReader. No data is ever uploaded, stored, or sent to any external server or cloud." class="bg-slate-100 text-slate-700 text-xs font-semibold px-2.5 py-0.5 rounded-full border border-slate-300">
+              🔒 100% Local Browser Execution — Zero Cloud Upload ⓘ
+            </span>
           </div>
           <p class="text-xs text-slate-500 mt-0.5">6 Channels • 7 Core Content Types • 8 Full-Funnel Pipeline &amp; Velocity Metrics <span class="text-blue-600 font-medium">(Hover over any dashed term for plain-English definitions)</span></p>
         </div>
@@ -601,8 +604,14 @@
         <h3 class="font-bold text-slate-900 text-base">Swap in Real ServiceNow Export (CSV or JSON)</h3>
         <button onclick="document.getElementById('upload-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 text-sm font-bold px-2">✕</button>
       </div>
+      <div class="mb-3 p-3 rounded-xl bg-emerald-50 border border-emerald-200 flex items-start space-x-2.5">
+        <span class="text-emerald-700 text-sm leading-none mt-0.5">🔒</span>
+        <p class="text-xs text-emerald-900 leading-relaxed">
+          <strong>100% Local Browser Memory (Zero Server Upload):</strong> Files selected here are read locally on your laptop using your browser's internal <code>FileReader</code> API. Your CSV data <strong>never leaves your computer</strong> and is never sent to any external server or cloud.
+        </p>
+      </div>
       <p class="text-xs text-slate-600 mb-4 leading-relaxed">
-        When your analytics colleague sends the real Power BI / MARZ export or fixes your RLS, drop the `.csv` or `.json` file here. The engine automatically maps ServiceNow column headers (`# Interactions`, `# Unique Leads`, `# Net New Interactions`, `# MQLs`, `# Stage 1 Optys`, `# Stage 2+ Optys`, `$ GSD Created Pipeline`, `$ Marketing Influenced Pipeline (MTA)`) and recalculates the entire dashboard and roadmap.
+        When your analytics colleague sends the aggregated MARZ export, drop the `.csv` or `.json` file here. The engine automatically maps ServiceNow column headers (`# Interactions`, `# Unique Leads`, `# Net New Interactions`, `# MQLs`, `# Stage 1 Optys`, `# Stage 2+ Optys`, `$ GSD Created Pipeline`, `$ Marketing Influenced Pipeline (MTA)`) and recalculates the entire dashboard and roadmap.
       </p>
 
       <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center hover:border-blue-500 cursor-pointer transition bg-slate-50" onclick="document.getElementById('csv-file-input').click()">
